@@ -1,0 +1,31 @@
+<div class="page" id="cameraPage">
+    <video id="cameraFeed" autoplay playsinline></video>
+    <canvas id="cameraCanvas" style="display:none;"></canvas>
+
+    <!-- Scanner Viewfinder Overlay -->
+    <div class="camera-scanner-overlay">
+        <div class="camera-scanner-frame">
+            <div class="corner top-left"></div>
+            <div class="corner top-right"></div>
+            <div class="corner bottom-left"></div>
+            <div class="corner bottom-right"></div>
+        </div>
+        <div class="camera-scanner-text">เล็งข้อสอบให้อยู่ในกรอบ</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="camera-top-controls">
+        <button class="camera-icon-btn" onclick="MobileApp.navigate('dashboard'); MobileApp.updateNavActive('dashboard')">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="camera-icon-btn" id="cameraFlashBtn" onclick="CameraApp.toggleFlash()" style="display:none;">
+            <i class="fas fa-bolt"></i>
+        </button>
+    </div>
+
+    <div class="camera-bottom-controls">
+        <div class="camera-shutter-wrap">
+            <button class="camera-shutter-btn" onclick="CameraApp.takePhoto()"></button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="page" id="subscriptionPage">
+    <div class="subscription-header">
+        <button class="camera-icon-btn back-btn" onclick="MobileApp.navigate('profile')">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <h2>อัปเกรดเป็น Premium</h2>
+    </div>
+
+    <div class="subscription-content">
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle-wrap">
+            <div class="billing-toggle">
+                <div class="billing-toggle-bg"></div>
+                <button class="billing-btn active" data-type="monthly"
+                    onclick="SubscriptionApp.setBilling('monthly')">รายเดือน</button>
+                <button class="billing-btn" data-type="yearly"
+                    onclick="SubscriptionApp.setBilling('yearly')">รายปี <span
+                        class="discount-badge">-20%</span></button>
+            </div>
+        </div>
+
+        <!-- Plans rendered by JS -->
+        <div class="subscription-plans" id="plansContainer">
+        </div>
+
+        <p class="subscription-terms text-center mt-3 text-muted"
+            style="font-size: 11px; margin-top: 16px; text-align: center;">
+            ราคารวมภาษีมูลค่าเพิ่มแล้ว สามารถยกเลิกได้ตลอดเวลา<br>
+            ระบบจะต่ออายุอัตโนมัติเมื่อครบกำหนด
+        </p>
+    </div>
+</div>

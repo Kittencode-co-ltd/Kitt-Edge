@@ -1,0 +1,91 @@
+            <div class="page" id="dashboardPage">
+
+                <!-- Score Card -->
+                <div class="score-card">
+                    <div class="score-header">
+                        <span class="score-label">คะแนนพยากรณ์</span>
+                        <button class="info-btn"><i class="fas fa-info-circle"></i></button>
+                    </div>
+                    <div class="score-main">
+                        <div class="score-circle">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="85, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <span class="score-number">85%</span>
+                        </div>
+                        <div class="score-info">
+                            <p>เป้าหมาย: <strong>90%</strong></p>
+                            <p class="score-trend"> 12 วันติดต่อกัน</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #DBEAFE; color: #1E40AF;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">248</span>
+                            <span class="stat-label">โจทย์ที่ทำ</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #D1FAE5; color: #065F46;">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">85%</span>
+                            <span class="stat-label">คะแนนเฉลี่ย</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #FED7AA; color: #92400E;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">48h</span>
+                            <span class="stat-label">เวลาเรียน</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject Progress -->
+                <section class="mobile-section">
+                    <div class="section-header">
+                        <h2>📚 บทเรียนของฉัน</h2>
+                        <button class="see-all">ดูทั้งหมด</button>
+                    </div>
+                    <div class="subject-list" id="subjectList">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Recommended Questions -->
+                <section class="mobile-section">
+                    <div class="section-header">
+                        <h2>💡 แนะนำสำหรับคุณ</h2>
+                        <button class="see-all">ดูทั้งหมด</button>
+                    </div>
+                    <div class="question-carousel" id="questionCarousel">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="mobile-section">
+                    <div class="section-header">
+                        <h2>📋 กิจกรรมล่าสุด</h2>
+                    </div>
+                    <div class="activity-list" id="activityList">
+                        <!-- Dynamic Content -->
+                    </div>
+                </section>
+
+                <!-- Bottom Spacing for Nav -->
+                <div style="height: 100px;"></div>
+            </div>

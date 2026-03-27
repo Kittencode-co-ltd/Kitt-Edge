@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4F46E5">
+    <title>Kitt-Edge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/mobile.css">
+</head>
+
+<body>
+    <!-- Main App Container -->
+    <div class="mobile-app">
+
+        <!-- Header -->
+        <header class="mobile-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Kitt-Edge</h1>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                </div>
+            </div>
+            <div class="header-subtitle">
+                <span> สวัสดี, <strong>Kitten</strong></span>
+            </div>
+        </header>
+
+        <!-- Main Content Area (Scrollable) -->
+        <main class="mobile-content" id="mainContent">
+            <!-- Content will be loaded dynamically here -->
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>หน้าแรก</span>
+            </button>
+            <button class="nav-item" data-page="exams">
+                <i class="fas fa-file-alt"></i>
+                <span>ข้อสอบ</span>
+            </button>
+            <button class="nav-item" data-page="camera">
+                <i class="fas fa-camera"></i>
+                <span>กล้อง</span>
+            </button>
+            <button class="nav-item" data-page="progress">
+                <i class="fas fa-chart-bar"></i>
+                <span>ผลเรียน</span>
+            </button>
+            <button class="nav-item" data-page="profile">
+                <i class="fas fa-user"></i>
+                <span>โปรไฟล์</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/exam-data.js"></script>
+    <script src="js/exam-room.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/subscription.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/mobile-app.js"></script>
+</body>
+
+</html>
