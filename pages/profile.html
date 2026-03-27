@@ -1,4 +1,5 @@
 <div class="page" id="profilePage">
+
     <div class="profile-header">
         <!-- Profile Avatar with Upload Functionality -->
         <div class="profile-avatar" onclick="document.getElementById('profileImageUpload').click()">
@@ -12,11 +13,11 @@
         <input type="file" id="profileImageUpload" accept="image/*" style="display: none;"
             onchange="MobileApp.handleProfileImageUpload(event)">
 
-        <h2>Kitten</h2>
+        <h2 id="profileDisplayName">Kitten</h2>
         <p class="profile-tier premium">Premium Member</p>
     </div>
     <div class="profile-menu">
-        <div class="menu-item">
+        <div class="menu-item" onclick="MobileApp.navigate('profile-setup')">
             <i class="fas fa-user"></i>
             <span>แก้ไขโปรไฟล์</span>
             <i class="fas fa-chevron-right"></i>

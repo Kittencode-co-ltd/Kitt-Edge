@@ -17,6 +17,7 @@ const MobileApp = {
     async init() {
         console.log('📱 Kitt-Edge Mobile App Initialized');
         this.setupNavigation();
+        this.updateGlobalUI();
         
         // Start App Flow
         await this.navigate('splash');
@@ -65,7 +66,7 @@ const MobileApp = {
             }
             
             // Show/hide bottom nav and header for full screen pages
-            const isFullScreen = ['exam-room', 'camera', 'subscription', 'splash', 'auth'].includes(pageName);
+            const isFullScreen = ['exam-room', 'camera', 'subscription', 'splash', 'auth', 'profile-setup'].includes(pageName);
             const bottomNav = document.querySelector('.bottom-nav');
             const header = document.querySelector('.mobile-header');
             const fab = document.getElementById('fab');
@@ -85,6 +86,7 @@ const MobileApp = {
             if (pageName === 'exams') this.renderExams();
             if (pageName === 'progress') this.renderProgress();
             if (pageName === 'profile') this.renderProfile();
+            if (pageName === 'profile-setup') this.renderProfileSetup();
             
             // Scroll to top
             mainContent.scrollTop = 0;
@@ -655,6 +657,105 @@ const MobileApp = {
                 defaultIcon.style.display = 'none';
             }
         }
+        
+        try {
+            const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
+            const displayName = savedData.displayName || savedData.name || 'Kitten';
+            const profileNameEl = document.getElementById('profileDisplayName');
+            if (profileNameEl) profileNameEl.textContent = displayName;
+        } catch (e) {}
+    },
+
+    // Render Profile Setup
+    renderProfileSetup() {
+        const purposeSelect = document.getElementById('setupPurpose');
+        const uniFields = document.getElementById('uniFields');
+        
+        if (purposeSelect && uniFields) {
+            purposeSelect.addEventListener('change', (e) => {
+                if (e.target.value === 'เตรียมสอบเข้ามหาลัย') {
+                    uniFields.style.animation = 'fadeIn 0.3s ease';
+                    uniFields.style.display = 'block';
+                } else {
+                    uniFields.style.display = 'none';
+                }
+            });
+        }
+
+        // Add logic to load saved profile data, unless it's a new registration
+        if (localStorage.getItem('isRegistering') === 'true') {
+            localStorage.removeItem('isRegistering');
+            if (document.getElementById('setupBackButton')) {
+                document.getElementById('setupBackButton').style.display = 'none';
+            }
+        } else {
+            if (document.getElementById('setupBackButton')) {
+                document.getElementById('setupBackButton').style.display = 'flex';
+            }
+            try {
+                const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
+                if (savedData.displayName && document.getElementById('setupDisplayName')) document.getElementById('setupDisplayName').value = savedData.displayName;
+                if (savedData.name && document.getElementById('setupName')) document.getElementById('setupName').value = savedData.name;
+                if (savedData.phone && document.getElementById('setupPhone')) document.getElementById('setupPhone').value = savedData.phone;
+                if (savedData.email && document.getElementById('setupEmail')) document.getElementById('setupEmail').value = savedData.email;
+                if (savedData.dob && document.getElementById('setupDob')) document.getElementById('setupDob').value = savedData.dob;
+                if (savedData.gender && document.getElementById('setupGender')) document.getElementById('setupGender').value = savedData.gender;
+                if (savedData.province && document.getElementById('setupProvince')) document.getElementById('setupProvince').value = savedData.province;
+                if (savedData.grade && document.getElementById('setupGrade')) document.getElementById('setupGrade').value = savedData.grade;
+                if (savedData.purpose && document.getElementById('setupPurpose')) {
+                    const el = document.getElementById('setupPurpose');
+                    el.value = savedData.purpose;
+                    el.dispatchEvent(new Event('change'));
+                }
+                if (savedData.university && document.getElementById('setupUniversity')) document.getElementById('setupUniversity').value = savedData.university;
+                if (savedData.faculty && document.getElementById('setupFaculty')) document.getElementById('setupFaculty').value = savedData.faculty;
+                if (savedData.major && document.getElementById('setupMajor')) document.getElementById('setupMajor').value = savedData.major;
+            } catch (e) {
+                console.warn('Could not parse user profile data');
+            }
+        }
+    },
+
+    // Submit Profile Setup
+    submitProfileSetup() {
+        // Collect and save data
+        const profileData = {
+            displayName: document.getElementById('setupDisplayName')?.value || '',
+            name: document.getElementById('setupName')?.value || '',
+            phone: document.getElementById('setupPhone')?.value || '',
+            email: document.getElementById('setupEmail')?.value || '',
+            dob: document.getElementById('setupDob')?.value || '',
+            gender: document.getElementById('setupGender')?.value || '',
+            province: document.getElementById('setupProvince')?.value || '',
+            grade: document.getElementById('setupGrade')?.value || '',
+            purpose: document.getElementById('setupPurpose')?.value || '',
+            university: document.getElementById('setupUniversity')?.value || '',
+            faculty: document.getElementById('setupFaculty')?.value || '',
+            major: document.getElementById('setupMajor')?.value || ''
+        };
+
+        if (!profileData.name) {
+            Utils.showToast('กรุณากรอกชื่อ-นามสกุล', 'error');
+            return;
+        }
+        if (!profileData.purpose) {
+            Utils.showToast('กรุณาเลือกเป้าหมายการใช้งาน', 'error');
+            return;
+        }
+
+        try {
+            localStorage.setItem('userProfileData', JSON.stringify(profileData));
+            this.updateGlobalUI();
+        } catch (e) {
+            console.warn('Could not save user profile data');
+        }
+
+        Utils.showLoading();
+        setTimeout(() => {
+            Utils.hideLoading();
+            Utils.showToast('บันทึกข้อมูลส่วนตัวสำเร็จ', 'success');
+            this.navigate('dashboard');
+        }, 1200);
     },
 
     // Handle Profile Image Upload
@@ -684,6 +785,16 @@ const MobileApp = {
             }
             reader.readAsDataURL(file);
         }
+    },
+
+    // Update Global UI (e.g. Header text)
+    updateGlobalUI() {
+        try {
+            const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
+            const displayName = savedData.displayName || savedData.name || 'Kitten';
+            const headerNameEl = document.getElementById('headerDisplayName');
+            if (headerNameEl) headerNameEl.textContent = displayName;
+        } catch (e) {}
     }
 };
 

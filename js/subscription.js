@@ -64,7 +64,8 @@ const SubscriptionApp = {
             { text: 'แนะนำข้อสอบรายบุคคล (Personalized Suggestion)', active: true },
             { text: 'ตารางเรียนอัจฉริยะพร้อมระบบแจ้งเตือน', active: true }
         ],
-        popular: false
+        popular: false,
+        luxury: true
     }
 ],
 
@@ -118,8 +119,9 @@ const SubscriptionApp = {
             }
 
             return `
-            <div class="plan-card ${plan.popular ? 'popular' : ''}">
+            <div class="plan-card ${plan.popular ? 'popular' : ''} ${plan.luxury ? 'luxury' : ''}">
                 ${plan.popular ? `<div class="popular-badge"><i class="fas fa-star text-warning"></i> ยอดนิยม</div>` : ''}
+                ${plan.luxury ? `<div class="luxury-badge"><i class="fas fa-crown"></i> Ultimate</div>` : ''}
                 
                 <div class="plan-header">
                     <div class="plan-header-left" style="flex:1; padding-right:10px;">

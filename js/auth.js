@@ -27,7 +27,9 @@ const AuthApp = {
         setTimeout(() => {
             Utils.hideLoading();
             Utils.showToast('สมัครสมาชิกสำเร็จ!', 'success');
-            MobileApp.navigate('dashboard');
+            localStorage.setItem('isRegistering', 'true');
+            // Redirect to profile setup instead of dashboard immediately
+            MobileApp.navigate('profile-setup');
         }, 1200);
     }
 };

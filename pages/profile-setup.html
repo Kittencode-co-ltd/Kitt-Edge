@@ -1,0 +1,267 @@
+<div class="page" id="profileSetupPage" style="background: var(--bg-secondary); overflow-y: auto; height: 100%;">
+    <!-- Header with Gradient -->
+    <div
+        style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: calc(20px + var(--safe-area-top)) 20px 40px; position: relative; color: white; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: var(--shadow-md);">
+        <button id="setupBackButton" class="icon-btn" onclick="MobileApp.navigate('profile')" style="position: absolute; top: calc(16px + var(--safe-area-top)); left: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.2); display: none; align-items: center; justify-content: center; border: none; outline: none; border-radius: 50%; color: white; cursor: pointer;">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div style="text-align: center; margin-top: 10px;">
+            <div
+                style="width: 72px; height: 72px; background: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <i class="fas fa-user-edit" style="font-size: 32px; color: var(--primary);"></i>
+            </div>
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">ข้อมูลโปรไฟล์</h2>
+            <p style="font-size: 14px; opacity: 0.9;">อัปเดตข้อมูลเพื่อการเรียนรู้ที่เหมาะกับคุณ</p>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <div style="padding: 0 16px 40px; margin-top: -20px; position: relative; z-index: 10;">
+
+        <!-- Group 1: ข้อมูลส่วนตัว -->
+        <div
+            style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 16px;">
+            <h3
+                style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                <i class="fas fa-id-card" style="color: var(--primary); margin-right: 8px;"></i>ข้อมูลส่วนตัว
+            </h3>
+
+            <div class="form-group">
+                <label
+                    style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">ชื่อผู้ใช้
+                    <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <i class="fas fa-user"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                    <input type="text" id="setupDisplayName" placeholder="ชื่อที่จะแสดงในระบบ" class="form-input" required
+                        style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">ชื่อ -
+                    นามสกุล <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <i class="fas fa-user"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                    <input type="text" id="setupName" placeholder="ชื่อ นามสกุล" class="form-input" required
+                        style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label
+                    style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">เบอร์โทรศัพท์
+                    <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <i class="fas fa-phone"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                    <input type="tel" id="setupPhone" placeholder="08xxxxxxxx" class="form-input" required
+                        style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">อีเมล
+                    <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <i class="fas fa-envelope"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                    <input type="email" id="setupEmail" placeholder="example@email.com" class="form-input" required
+                        style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <div class="form-group" style="flex: 1;">
+                    <label
+                        style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">วันเกิด
+                        <span style="color: var(--danger);">*</span></label>
+                    <input type="date" id="setupDob" class="form-input" required
+                        style="background: var(--bg-secondary); border-color: transparent; padding-left: 12px; padding-right: 12px;">
+                </div>
+
+                <div class="form-group" style="flex: 1;">
+                    <label
+                        style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">เพศ
+                        <span style="color: var(--danger);">*</span></label>
+                    <select id="setupGender" class="form-input" required
+                        style="background: var(--bg-secondary); border-color: transparent; outline: none;">
+                        <option value="" disabled selected>เลือกเพศ</option>
+                        <option value="ชาย">ชาย</option>
+                        <option value="หญิง">หญิง</option>
+                        <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group 2: ข้อมูลการศึกษา -->
+        <div
+            style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); margin-bottom: 16px;">
+            <h3
+                style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                <i class="fas fa-graduation-cap" style="color: var(--primary); margin-right: 8px;"></i>ข้อมูลการศึกษา
+            </h3>
+
+            <div style="display: flex; gap: 12px;">
+                <div class="form-group" style="flex: 1;">
+                    <label
+                        style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">จังหวัด
+                        <span style="color: var(--danger);">*</span></label>
+                    <div style="position: relative;">
+                        <i class="fas fa-map-marker-alt"
+                            style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                        <select id="setupProvince" class="form-input" required
+                            style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent; outline: none; width: 100%; -webkit-appearance: none;">
+                            <option value="" disabled selected>เลือกจังหวัด</option>
+                            <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+                            <option value="กระบี่">กระบี่</option>
+                            <option value="กาญจนบุรี">กาญจนบุรี</option>
+                            <option value="กาฬสินธุ์">กาฬสินธุ์</option>
+                            <option value="กำแพงเพชร">กำแพงเพชร</option>
+                            <option value="ขอนแก่น">ขอนแก่น</option>
+                            <option value="จันทบุรี">จันทบุรี</option>
+                            <option value="ฉะเชิงเทรา">ฉะเชิงเทรา</option>
+                            <option value="ชลบุรี">ชลบุรี</option>
+                            <option value="ชัยนาท">ชัยนาท</option>
+                            <option value="ชัยภูมิ">ชัยภูมิ</option>
+                            <option value="ชุมพร">ชุมพร</option>
+                            <option value="เชียงราย">เชียงราย</option>
+                            <option value="เชียงใหม่">เชียงใหม่</option>
+                            <option value="ตรัง">ตรัง</option>
+                            <option value="ตราด">ตราด</option>
+                            <option value="ตาก">ตาก</option>
+                            <option value="นครนายก">นครนายก</option>
+                            <option value="นครปฐม">นครปฐม</option>
+                            <option value="นครพนม">นครพนม</option>
+                            <option value="นครราชสีมา">นครราชสีมา</option>
+                            <option value="นครศรีธรรมราช">นครศรีธรรมราช</option>
+                            <option value="นครสวรรค์">นครสวรรค์</option>
+                            <option value="นนทบุรี">นนทบุรี</option>
+                            <option value="นราธิวาส">นราธิวาส</option>
+                            <option value="น่าน">น่าน</option>
+                            <option value="บึงกาฬ">บึงกาฬ</option>
+                            <option value="บุรีรัมย์">บุรีรัมย์</option>
+                            <option value="ปทุมธานี">ปทุมธานี</option>
+                            <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์</option>
+                            <option value="ปราจีนบุรี">ปราจีนบุรี</option>
+                            <option value="ปัตตานี">ปัตตานี</option>
+                            <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา</option>
+                            <option value="พะเยา">พะเยา</option>
+                            <option value="พังงา">พังงา</option>
+                            <option value="พัทลุง">พัทลุง</option>
+                            <option value="พิจิตร">พิจิตร</option>
+                            <option value="พิษณุโลก">พิษณุโลก</option>
+                            <option value="เพชรบุรี">เพชรบุรี</option>
+                            <option value="เพชรบูรณ์">เพชรบูรณ์</option>
+                            <option value="แพร่">แพร่</option>
+                            <option value="ภูเก็ต">ภูเก็ต</option>
+                            <option value="มหาสารคาม">มหาสารคาม</option>
+                            <option value="มุกดาหาร">มุกดาหาร</option>
+                            <option value="แม่ฮ่องสอน">แม่ฮ่องสอน</option>
+                            <option value="ยโสธร">ยโสธร</option>
+                            <option value="ยะลา">ยะลา</option>
+                            <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+                            <option value="ระนอง">ระนอง</option>
+                            <option value="ระยอง">ระยอง</option>
+                            <option value="ราชบุรี">ราชบุรี</option>
+                            <option value="ลพบุรี">ลพบุรี</option>
+                            <option value="ลำปาง">ลำปาง</option>
+                            <option value="ลำพูน">ลำพูน</option>
+                            <option value="เลย">เลย</option>
+                            <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+                            <option value="สกลนคร">สกลนคร</option>
+                            <option value="สงขลา">สงขลา</option>
+                            <option value="สตูล">สตูล</option>
+                            <option value="สมุทรปราการ">สมุทรปราการ</option>
+                            <option value="สมุทรสงคราม">สมุทรสงคราม</option>
+                            <option value="สมุทรสาคร">สมุทรสาคร</option>
+                            <option value="สระแก้ว">สระแก้ว</option>
+                            <option value="สระบุรี">สระบุรี</option>
+                            <option value="สิงห์บุรี">สิงห์บุรี</option>
+                            <option value="สุโขทัย">สุโขทัย</option>
+                            <option value="สุพรรณบุรี">สุพรรณบุรี</option>
+                            <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
+                            <option value="สุรินทร์">สุรินทร์</option>
+                            <option value="หนองคาย">หนองคาย</option>
+                            <option value="หนองบัวลำภู">หนองบัวลำภู</option>
+                            <option value="อ่างทอง">อ่างทอง</option>
+                            <option value="อำนาจเจริญ">อำนาจเจริญ</option>
+                            <option value="อุดรธานี">อุดรธานี</option>
+                            <option value="อุตรดิตถ์">อุตรดิตถ์</option>
+                            <option value="อุทัยธานี">อุทัยธานี</option>
+                            <option value="อุบลราชธานี">อุบลราชธานี</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="flex: 1;">
+                    <label
+                        style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">ระดับชั้น
+                        <span style="color: var(--danger);">*</span></label>
+                    <select id="setupGrade" class="form-input" required
+                        style="background: var(--bg-secondary); border-color: transparent; outline: none;">
+                        <option value="" disabled selected>เลือกระดับชั้น</option>
+                        <option value="ม.4">ม.4</option>
+                        <option value="ม.5">ม.5</option>
+                        <option value="ม.6">ม.6</option>
+                        <option value="ปวช.">ปวช.</option>
+                        <option value="อื่น ๆ">อื่น ๆ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label
+                    style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; display: block;">เป้าหมายการใช้งาน
+                    <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <i class="fas fa-bullseye"
+                        style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                    <select id="setupPurpose" class="form-input" required
+                        style="padding-left: 40px; background: var(--bg-secondary); border-color: transparent; outline: none; width: 100%; -webkit-appearance: none;">
+                        <option value="" disabled selected>เลือกเป้าหมายการใช้งาน</option>
+                        <option value="ทบทวนบทเรียน">ทบทวนบทเรียนที่โรงเรียน</option>
+                        <option value="เตรียมสอบเข้ามหาลัย">เตรียมสอบเข้ามหาวิทยาลัย (TCAS)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group 3: ข้อมูลเพิ่มเติมสำหรับเตรียมสอบเข้ามหาลัย -->
+        <div id="uniFields"
+            style="display: none; background: linear-gradient(to right, rgba(30,58,138,0.05), rgba(14,165,233,0.05)); border: 1px solid rgba(30,58,138,0.1); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                <div
+                    style="width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-university" style="font-size: 14px;"></i>
+                </div>
+                <h3 style="font-size: 15px; font-weight: 600; color: var(--primary); margin: 0;">เป้าหมายการสอบเข้า</h3>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="setupUniversity" placeholder="มหาวิทยาลัยที่อยากเข้า เช่น จุฬาฯ"
+                    class="form-input"
+                    style="background: white; border-color: rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 0;">
+                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                    <input type="text" id="setupFaculty" placeholder="คณะเป้าหมาย" class="form-input"
+                        style="background: white; border-color: rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                </div>
+
+                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                    <input type="text" id="setupMajor" placeholder="สาขาเป้าหมาย" class="form-input"
+                        style="background: white; border-color: rgba(0,0,0,0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary btn-block auth-submit-btn"
+            style="padding: 14px; font-size: 16px; font-weight: 600; border-radius: var(--radius-xl); box-shadow: 0 4px 12px rgba(30,58,138,0.3); display: flex; align-items: center; justify-content: center; gap: 8px;"
+            onclick="MobileApp.submitProfileSetup()">
+            <i class="fas fa-save"></i> บันทึกข้อมูล
+        </button>
+    </div>
+</div>
