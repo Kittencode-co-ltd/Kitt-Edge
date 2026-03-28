@@ -97,51 +97,51 @@ const mockData = {
         },
         {
             id: "EX002",
-            name: "TGAT ความถนัดทั่วไป",
+            name: "TGAT ความถนัดทั่วไป (ตัวอย่าง)",
             subject: "general",
             totalQuestions: 60,
             duration: 60,
-            status: "completed"
+            status: "unavailable"
         },
         {
             id: "EX003",
-            name: "A-Level ฟิสิกส์ (มี.ค. 68)",
+            name: "A-Level ฟิสิกส์ (มี.ค. 68) (ตัวอย่าง)",
             subject: "science",
             totalQuestions: 30,
             duration: 90,
-            status: "not_started"
+            status: "unavailable"
         },
         {
             id: "EX004",
-            name: "A-Level เคมี (มี.ค. 68)",
+            name: "A-Level เคมี (มี.ค. 68) (ตัวอย่าง)",
             subject: "science",
             totalQuestions: 40,
             duration: 90,
-            status: "not_started"
+            status: "unavailable"
         },
         {
             id: "EX005",
-            name: "A-Level ภาษาอังกฤษ (มี.ค. 68)",
+            name: "A-Level ภาษาอังกฤษ (มี.ค. 68) (ตัวอย่าง)",
             subject: "english",
             totalQuestions: 80,
             duration: 90,
-            status: "not_started"
+            status: "unavailable"
         },
         {
             id: "EX006",
-            name: "TPAT1 ความถนัดแพทย์",
+            name: "TPAT1 ความถนัดแพทย์ (ตัวอย่าง)",
             subject: "science",
             totalQuestions: 45,
             duration: 75,
-            status: "not_started"
+            status: "unavailable"
         },
         {
             id: "EX007",
-            name: "A-Level ภาษาไทย (มี.ค. 67)",
+            name: "A-Level ภาษาไทย (มี.ค. 67) (ตัวอย่าง)",
             subject: "thai",
             totalQuestions: 50,
             duration: 90,
-            status: "completed"
+            status: "unavailable"
         }
     ],
     activities: [
@@ -221,5 +221,50 @@ const mockData = {
                 ]
             }
         ]
-    }
+    },
+    notifications: [
+        {
+            id: 'notif-1',
+            sender: 'Kitt-Edge Tutor',
+            senderAvatar: '<i class="fas fa-graduation-cap"></i>',
+            isSystemIcon: true,
+            avatarBg: '#4F46E5',
+            text: '<b>Kitt-Edge Tutor</b> เพิ่มวิดีโอเฉลยใหม่: "เฉลย A-Level คณิต 1 ข้อ 26-30"',
+            time: '2 ชั่วโมงที่แล้ว',
+            isRead: false,
+            thumbnail: 'assets/images/math_thumb.png'
+        },
+        {
+            id: 'notif-2',
+            sender: 'ระบบ',
+            senderAvatar: '<i class="fas fa-robot"></i>',
+            isSystemIcon: true,
+            avatarBg: '#10B981',
+            text: 'รายงานผลการเรียนรายสัปดาห์ของคุณพร้อมแล้ว ดูความก้าวหน้าของคุณได้เลย!',
+            time: '5 ชั่วโมงที่แล้ว',
+            isRead: false,
+            thumbnail: null
+        },
+        {
+            id: 'notif-3',
+            sender: 'Kitt-Edge Team',
+            senderAvatar: '<i class="fas fa-bullhorn"></i>',
+            isSystemIcon: true,
+            avatarBg: '#F59E0B',
+            text: 'อัปเดตระบบ: เพิ่ม<b>คลังข้อสอบ TGAT รุ่นใหม่</b> เข้ามาในระบบแล้ว',
+            time: '1 วันที่ผ่านมา',
+            isRead: true,
+            thumbnail: null
+        },
+        {
+            id: 'notif-4',
+            sender: 'Community',
+            senderAvatar: 'assets/images/user_avatar.png',
+            isSystemIcon: false,
+            text: 'มี 2 คนตอบกลับคอมเมนต์ของคุณใน <b>"เทคนิคการเดาศัพท์จากรากศัพท์"</b>',
+            time: '2 วันที่ผ่านมา',
+            isRead: true,
+            thumbnail: null
+        }
+    ]
 };

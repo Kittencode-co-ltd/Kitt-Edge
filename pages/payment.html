@@ -1,0 +1,80 @@
+<div class="page" id="paymentPage" style="background: var(--bg-secondary); height: 100%; overflow-y: auto;">
+    <!-- Header -->
+    <div class="payment-header">
+        <button class="back-btn" onclick="MobileApp.navigate('subscription')">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>ชำระเงิน</h2>
+        <div style="width: 40px;"></div>
+    </div>
+
+    <div class="payment-content">
+        <!-- Order Summary Card -->
+        <div class="order-summary-card">
+            <div class="order-info">
+                <span class="plan-label">แพ็กเกจที่เลือก</span>
+                <h3 id="paymentPlanName">Premium Plus</h3>
+                <p id="paymentPlanDesc" class="text-muted">เข้าถึงคลังข้อสอบและ Adaptive Exam ไม่จำกัด</p>
+            </div>
+            <div class="order-price">
+                <span class="price-label">ยอดที่ต้องชำระ</span>
+                <div class="price-value" id="paymentTotal">฿249</div>
+            </div>
+        </div>
+
+        <!-- Quick Pay Options -->
+        <div class="payment-section">
+            <h4 class="section-title">ชำระเงินด่วน</h4>
+            <div class="quick-pay-grid">
+                <button class="gpay-btn" onclick="MobileApp.processPayment('Google Pay')">
+                    <img src="https://www.gstatic.com/instantbuy/svg/dark_gpay.svg" alt="Google Pay">
+                </button>
+                <button class="apple-pay-btn" onclick="MobileApp.processPayment('Apple Pay')">
+                    <i class="fab fa-apple"></i> Pay
+                </button>
+            </div>
+        </div>
+
+        <div class="payment-divider">
+            <span>หรือชำระด้วยบัตร</span>
+        </div>
+
+        <!-- Credit Card Section -->
+        <div class="payment-section">
+            <div class="card-form-container">
+                <div class="form-group">
+                    <label>หมายเลขบัตร</label>
+                    <div class="input-with-icon">
+                        <i class="far fa-credit-card"></i>
+                        <input type="text" placeholder="0000 0000 0000 0000" id="cardNumber">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>วันหมดอายุ</label>
+                        <input type="text" placeholder="MM/YY" id="cardExpiry">
+                    </div>
+                    <div class="form-group">
+                        <label>CVC</label>
+                        <input type="password" placeholder="***" id="cardCvc">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>ชื่อบนบัตร</label>
+                    <input type="text" placeholder="NAME ON CARD" id="cardName">
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Button -->
+        <button class="btn btn-primary btn-block payment-confirm-btn" onclick="MobileApp.processPayment('Credit Card')">
+            ชำระเงิน <span id="paymentConfirmTotal">฿249</span>
+        </button>
+
+        <p class="payment-security-note">
+            <i class="fas fa-lock"></i> ข้อมูลการชำระเงินของคุณถูกเข้ารหัสและปลอดภัย
+        </p>
+    </div>
+</div>

@@ -148,11 +148,35 @@ const SubscriptionApp = {
                     `).join('')}
                 </ul>
 
-                <button class="plan-btn mt-3" onclick="Utils.showToast('${plan.priceMonthly === 0 ? 'เริ่มใช้งานฟรี...' : 'กำลังนำไปสู่หน้าชำระเงิน...'}', 'success')">
+                <button class="plan-btn mt-3" onclick="SubscriptionApp.selectPlan('${plan.id}')">
                     ${plan.priceMonthly === 0 ? 'เริ่มใช้งาน' : 'เลือกแผนนี้'}
                 </button>
             </div>
             `;
         }).join('');
+    },
+
+    selectPlan(planId) {
+        const plan = this.plans.find(p => p.id === planId);
+        if (!plan) return;
+
+        if (plan.priceMonthly === 0) {
+            Utils.showToast('เริ่มใช้งานฟรีสำเร็จ!', 'success');
+            MobileApp.navigate('dashboard');
+            return;
+        }
+
+        // Prepare payment data
+        const isYearly = this.billingCycle === 'yearly';
+        MobileApp.data.paymentData = {
+            id: plan.id,
+            name: plan.name,
+            description: plan.description,
+            price: isYearly ? plan.priceYearly : plan.priceMonthly,
+            cycle: this.billingCycle
+        };
+
+        // Navigate to payment page
+        MobileApp.navigate('payment');
     }
 };

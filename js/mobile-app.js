@@ -11,7 +11,8 @@ const MobileApp = {
         user: null,
         subjects: [],
         questions: [],
-        activities: []
+        activities: [],
+        paymentData: null
     },
 
     async init() {
@@ -66,14 +67,14 @@ const MobileApp = {
             }
             
             // Show/hide bottom nav and header for full screen pages
-            const isFullScreen = ['exam-room', 'camera', 'subscription', 'splash', 'auth', 'profile-setup'].includes(pageName);
+            const isFullScreen = ['exam-room', 'camera', 'subscription', 'splash', 'auth', 'profile-setup', 'notifications', 'payment'].includes(pageName);
             const bottomNav = document.querySelector('.bottom-nav');
             const header = document.querySelector('.mobile-header');
             const fab = document.getElementById('fab');
             if (bottomNav) bottomNav.style.display = isFullScreen ? 'none' : '';
             if (header) header.style.display = isFullScreen ? 'none' : '';
             if (fab) fab.style.display = isFullScreen ? 'none' : '';
-            mainContent.style.paddingBottom = isFullScreen ? '0' : '';
+            mainContent.style.padding = isFullScreen ? '0' : '';
             
             // Handle Camera Lifecycle
             if (window.CameraApp) {
@@ -87,6 +88,13 @@ const MobileApp = {
             if (pageName === 'progress') this.renderProgress();
             if (pageName === 'profile') this.renderProfile();
             if (pageName === 'profile-setup') this.renderProfileSetup();
+            if (pageName === 'subscription') {
+                if (typeof SubscriptionApp !== 'undefined') {
+                    SubscriptionApp.init();
+                }
+            }
+            if (pageName === 'notifications') this.renderNotifications();
+            if (pageName === 'payment') this.renderPayment();
             
             // Scroll to top
             mainContent.scrollTop = 0;
@@ -110,8 +118,8 @@ const MobileApp = {
                 api.getActivityHistory(5),
                 api.getProgress()
             ]);
-            
             this.data = { user, subjects: knowledge.subjects, questions, activities, progress };
+            this.updateNotificationBadge();
             this.renderDashboard();
         } catch (error) {
             console.error('Load data error:', error);
@@ -274,6 +282,122 @@ const MobileApp = {
         container.scrollTop = container.scrollHeight;
     },
 
+    // ==========================================
+    // Notifications Logic
+    // ==========================================
+    
+    updateNotificationBadge() {
+        const badge = document.getElementById('notificationBadge');
+        if (!badge || !mockData.notifications) return;
+        
+        const unreadCount = mockData.notifications.filter(n => !n.isRead).length;
+        if (unreadCount > 0) {
+            badge.style.display = 'flex';
+            badge.innerText = unreadCount > 99 ? '99+' : unreadCount;
+        } else {
+            badge.style.display = 'none';
+        }
+    },
+
+    renderNotifications() {
+        const container = document.getElementById('notificationsList');
+        if (!container) return;
+        
+        if (!mockData.notifications || mockData.notifications.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+                    <i class="fas fa-bell-slash" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                    <p>ไม่มีการแจ้งเตือนใหม่</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = mockData.notifications.map(n => `
+            <div class="notification-item ${n.isRead ? 'read' : 'unread'}" onclick="MobileApp.markNotificationRead('${n.id}')">
+                <div class="notif-avatar" style="${n.avatarBg ? 'background: ' + n.avatarBg + ';' : ''}">
+                    ${n.senderAvatar.startsWith('<') ? n.senderAvatar : '<img src="' + n.senderAvatar + '" alt="avatar">'}
+                    ${!n.isRead ? '<div class="unread-dot"></div>' : ''}
+                </div>
+                <div class="notif-content">
+                    <div class="notif-text">${n.text}</div>
+                    <div class="notif-time">${n.time}</div>
+                </div>
+                ${n.thumbnail ? 
+                    `<div class="notif-thumbnail"><img src="${n.thumbnail}" alt="thumb"></div>` : 
+                    `<button class="icon-btn notif-menu-btn" onclick="event.stopPropagation();"><i class="fas fa-ellipsis-v"></i></button>`
+                }
+            </div>
+        `).join('');
+    },
+
+    markNotificationRead(id) {
+        const notif = mockData.notifications.find(n => n.id === id);
+        if (notif && !notif.isRead) {
+            notif.isRead = true;
+            this.updateNotificationBadge();
+            this.renderNotifications();
+        }
+    },
+
+    markAllNotificationsRead() {
+        if (!mockData.notifications) return;
+        mockData.notifications.forEach(n => n.isRead = true);
+        this.updateNotificationBadge();
+        this.renderNotifications();
+        Utils.showToast('อ่านการแจ้งเตือนทั้งหมดแล้ว', 'success');
+    },
+
+    // ==========================================
+    // Payment Logic
+    // ==========================================
+    
+    renderPayment() {
+        if (!this.data.paymentData) {
+            // Fallback if no plan selected (should not happen in normal flow)
+            this.data.paymentData = {
+                name: 'Premium Plus',
+                description: 'เข้าถึงคลังข้อสอบและ Adaptive Exam ไม่จำกัด',
+                price: 249
+            };
+        }
+
+        const plan = this.data.paymentData;
+        const nameEl = document.getElementById('paymentPlanName');
+        const descEl = document.getElementById('paymentPlanDesc');
+        const totalEl = document.getElementById('paymentTotal');
+        const confirmTotalEl = document.getElementById('paymentConfirmTotal');
+
+        if (nameEl) nameEl.innerText = plan.name;
+        if (descEl) descEl.innerText = plan.description;
+        if (totalEl) totalEl.innerText = `฿${plan.price.toLocaleString()}`;
+        if (confirmTotalEl) confirmTotalEl.innerText = `฿${plan.price.toLocaleString()}`;
+    },
+
+    async processPayment(method) {
+        Utils.showLoading();
+        
+        // Simulate processing time
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        Utils.hideLoading();
+        Utils.showToast(`ชำระเงินด้วย ${method} สำเร็จ!`, 'success');
+        
+        // Update user status (simulation)
+        if (this.data.user) {
+            this.data.user.isPremium = true;
+            this.data.user.plan = this.data.paymentData.name;
+        }
+        
+        // Go to dashboard after success
+        setTimeout(() => {
+            this.navigate('dashboard');
+            // Refresh dashboard to show premium status if needed
+            this.renderDashboard();
+        }, 1500);
+    },
+
+    // Render Exams
     // Render Exams
     renderExams() {
         const container = document.getElementById('examList');
@@ -281,24 +405,30 @@ const MobileApp = {
         
         const exams = mockData.mockExams;
         
-        container.innerHTML = exams.map(exam => `
-            <div class="exam-card">
-                <div class="exam-header">
-                    <div>
-                        <div class="exam-title">${exam.name}</div>
-                        <div class="exam-subject">${exam.subject.toUpperCase()}</div>
+        container.innerHTML = exams.map(exam => {
+            const isUnavailable = exam.status === 'unavailable';
+            const badgeText = exam.status === 'completed' ? 'ทำแล้ว' : (isUnavailable ? 'ยังไม่พร้อมใช้งาน' : 'เริ่มทำ');
+            const btnText = exam.status === 'completed' ? 'ดูผลลัพธ์' : (isUnavailable ? 'ยังไม่พร้อมใช้งาน' : 'เริ่มทำข้อสอบ');
+            
+            return `
+                <div class="exam-card ${isUnavailable ? 'unavailable' : ''}" ${isUnavailable ? 'style="opacity: 0.6; filter: grayscale(100%);"' : ''}>
+                    <div class="exam-header">
+                        <div>
+                            <div class="exam-title" ${isUnavailable ? 'style="color: var(--text-secondary);"' : ''}>${exam.name}</div>
+                            <div class="exam-subject">${exam.subject.toUpperCase()}</div>
+                        </div>
+                        <span class="exam-badge ${exam.status}" ${isUnavailable ? 'style="background: #f3f4f6; color: #9ca3af;"' : ''}>${badgeText}</span>
                     </div>
-                    <span class="exam-badge ${exam.status}">${exam.status === 'completed' ? 'ทำแล้ว' : 'เริ่มทำ'}</span>
+                    <div class="exam-meta">
+                        <span><i class="fas fa-question-circle"></i> ${exam.totalQuestions} ข้อ</span>
+                        <span><i class="far fa-clock"></i> ${exam.duration} นาที</span>
+                    </div>
+                    <button class="btn-start" ${isUnavailable ? 'style="background: #f3f4f6; color: #9ca3af;"' : `onclick="MobileApp.startExam('${exam.id}')"`}>
+                        ${btnText}
+                    </button>
                 </div>
-                <div class="exam-meta">
-                    <span><i class="fas fa-question-circle"></i> ${exam.totalQuestions} ข้อ</span>
-                    <span><i class="far fa-clock"></i> ${exam.duration} นาที</span>
-                </div>
-                <button class="btn-start" onclick="MobileApp.startExam('${exam.id}')">
-                    ${exam.status === 'completed' ? 'ดูผลลัพธ์' : 'เริ่มทำข้อสอบ'}
-                </button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     },
 
     // Render Progress
@@ -577,7 +707,7 @@ const MobileApp = {
                     </div>
                 </div>
                 <div class="insight-detail-topics">${topicsHTML}</div>
-                ${ !isStrength ? `<button class="insight-practice-btn" onclick="MobileApp.closeInsightDetail(); MobileApp.startAdaptiveExam()" style="background:${item.color}">
+                ${ !isStrength ? `<button class="insight-practice-btn" MobileApp.startAdaptiveExam()" style="background:${item.color} ">
                     <i class="fas fa-dumbbell"></i> ฝึกทำโจทย์จุดอ่อนนี้
                 </button>` : '' }
             </div>
@@ -608,6 +738,11 @@ const MobileApp = {
 
     // Start Adaptive Exam
     async startAdaptiveExam() {
+        // Disabled adaptive exam mode
+        Utils.showToast('ยังไม่พร้อมใช้งาน', 'info');
+        return;
+
+        /*
         await this.navigate('exam-room');
 
         // Build an adaptive exam session object
@@ -624,6 +759,7 @@ const MobileApp = {
         };
 
         ExamRoom.init(adaptiveExamData);
+        */
     },
 
     // Start Exam
