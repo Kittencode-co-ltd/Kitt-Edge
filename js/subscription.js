@@ -161,6 +161,7 @@ const SubscriptionApp = {
         if (!plan) return;
 
         if (plan.priceMonthly === 0) {
+            localStorage.setItem('userPlan', plan.id);
             Utils.showToast('เริ่มใช้งานฟรีสำเร็จ!', 'success');
             MobileApp.navigate('dashboard');
             return;
@@ -175,6 +176,9 @@ const SubscriptionApp = {
             price: isYearly ? plan.priceYearly : plan.priceMonthly,
             cycle: this.billingCycle
         };
+
+        // Save selected plan in localStorage (confirmed after payment)
+        localStorage.setItem('pendingPlan', plan.id);
 
         // Navigate to payment page
         MobileApp.navigate('payment');

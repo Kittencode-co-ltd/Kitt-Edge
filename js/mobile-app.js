@@ -383,6 +383,13 @@ const MobileApp = {
         Utils.hideLoading();
         Utils.showToast(`ชำระเงินด้วย ${method} สำเร็จ!`, 'success');
         
+        // Confirm pending plan as active plan
+        const pendingPlan = localStorage.getItem('pendingPlan');
+        if (pendingPlan) {
+            localStorage.setItem('userPlan', pendingPlan);
+            localStorage.removeItem('pendingPlan');
+        }
+
         // Update user status (simulation)
         if (this.data.user) {
             this.data.user.isPremium = true;
@@ -800,6 +807,21 @@ const MobileApp = {
             const profileNameEl = document.getElementById('profileDisplayName');
             if (profileNameEl) profileNameEl.textContent = displayName;
         } catch (e) {}
+
+        // --- Update subscription tier badge ---
+        const tierBadge = document.getElementById('profileTierBadge');
+        if (tierBadge) {
+            const planId = localStorage.getItem('userPlan') || 'free';
+            const tierMap = {
+                'free':          { label: 'Free Plan',     cls: 'tier-free',    icon: '' },
+                'exam-plus':     { label: 'Starter Plan',  cls: 'tier-starter', icon: '✨' },
+                'adaptive-pro':  { label: 'Advance Plan',  cls: 'tier-advance', icon: '⭐' },
+                'analyst-elite': { label: 'Ultimate Plan', cls: 'tier-ultimate',icon: '👑' }
+            };
+            const tier = tierMap[planId] || tierMap['free'];
+            tierBadge.className = `profile-tier ${tier.cls}`;
+            tierBadge.innerHTML = tier.icon ? `<span>${tier.icon}</span> ${tier.label}` : tier.label;
+        }
     },
 
     // Render Profile Setup
