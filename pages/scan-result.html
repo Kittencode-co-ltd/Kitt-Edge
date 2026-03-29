@@ -1,0 +1,90 @@
+<div class="page" id="scanResultPage">
+
+    <!-- Header -->
+    <div class="scan-result-header">
+        <button class="scan-back-btn" onclick="MobileApp.navigate('camera'); MobileApp.updateNavActive('camera')">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="scan-result-title">
+            <span>ผลการสแกน</span>
+            <span class="scan-result-subtitle">AI วิเคราะห์โจทย์</span>
+        </div>
+        <button class="scan-action-btn" onclick="ScanResult.share()">
+            <i class="fas fa-share-alt"></i>
+        </button>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="scan-result-body">
+
+        <!-- Question Image Card -->
+        <div class="scan-card scan-image-card">
+            <div class="scan-card-label">
+                <i class="fas fa-camera-retro"></i> รูปโจทย์ที่สแกน
+            </div>
+            <div class="scan-image-wrap">
+                <img id="scanCapturedImage" src="" alt="Captured Question" />
+                <div class="scan-image-badge">
+                    <i class="fas fa-check-circle"></i> สแกนสำเร็จ
+                </div>
+            </div>
+            <div class="scan-meta-row">
+                <span id="scanMetaSubject"><i class="fas fa-book"></i> คณิตศาสตร์</span>
+                <span id="scanMetaDifficulty"><i class="fas fa-signal"></i> ยาก</span>
+                <span id="scanMetaTime"><i class="far fa-clock"></i> ~8 นาที</span>
+            </div>
+        </div>
+
+        <!-- AI Analysing Skeleton (shown while loading) -->
+        <div class="scan-card scan-loading-card" id="scanLoadingCard">
+            <div class="scan-ai-thinking">
+                <div class="ai-pulse-ring"></div>
+                <div class="ai-brain-icon"><i class="fas fa-brain"></i></div>
+            </div>
+            <p class="scan-loading-text">Kitt-Edge AI กำลังวิเคราะห์โจทย์...</p>
+            <div class="scan-loading-bar">
+                <div class="scan-loading-fill" id="scanLoadingFill"></div>
+            </div>
+        </div>
+
+        <!-- Solution Card (hidden until loaded) -->
+        <div class="scan-card scan-solution-card" id="scanSolutionCard" style="display:none;">
+            <div class="scan-card-label solution-label">
+                <i class="fas fa-lightbulb"></i> เฉลยวิธีทำ
+            </div>
+
+            <!-- Answer Highlight -->
+            <div class="scan-answer-highlight" id="scanAnswerHighlight">
+                <span class="scan-answer-label">คำตอบ</span>
+                <span class="scan-answer-value" id="scanAnswerValue">—</span>
+            </div>
+
+            <!-- Step-by-Step Solution -->
+            <div class="scan-steps" id="scanSteps"></div>
+
+            <!-- Key Concept Tag -->
+            <div class="scan-concept-row" id="scanConceptRow"></div>
+        </div>
+
+        <!-- Related Questions -->
+        <div class="scan-card scan-related-card" id="scanRelatedCard" style="display:none;">
+            <div class="scan-card-label">
+                <i class="fas fa-layer-group"></i> โจทย์ที่คล้ายกัน
+            </div>
+            <div class="scan-related-list" id="scanRelatedList"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="scan-actions" id="scanActions" style="display:none;">
+            <button class="scan-btn-primary" onclick="ScanResult.practiceMore()">
+                <i class="fas fa-dumbbell"></i> ฝึกทำโจทย์คล้ายกัน
+            </button>
+            <button class="scan-btn-secondary"
+                onclick="MobileApp.navigate('camera'); MobileApp.updateNavActive('camera')">
+                <i class="fas fa-camera"></i> สแกนใหม่
+            </button>
+        </div>
+
+        <div style="height: 32px;"></div>
+    </div>
+</div>

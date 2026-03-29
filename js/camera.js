@@ -74,10 +74,15 @@ const CameraApp = {
 
         Utils.showToast('ถ่ายรูปสำเร็จ! กำลังสแกน...', 'success');
         
-        // Stop camera and go back after short delay
+        // Save captured image for the result page
+        try {
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+            sessionStorage.setItem('scanCapturedImage', dataUrl);
+        } catch(e) {}
+
+        // Navigate to result page
         setTimeout(() => {
-            MobileApp.navigate('dashboard');
-            MobileApp.updateNavActive('dashboard');
-        }, 1500);
+            MobileApp.navigate('scan-result');
+        }, 800);
     }
 };

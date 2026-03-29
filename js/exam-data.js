@@ -248,3 +248,154 @@ const aLevelMath1Data = {
         }
     ]
 };
+
+// ============================================
+// ADDED: A-Level Listening & Speaking (Listening Passage Mode)
+// ============================================
+
+const examContent = {
+    section: "Listening & Speaking",
+    passages: [
+        {
+            title: "Conversation 1",
+            questionRange: { start: 0, end: 3 }, // ADDED: answerSheet indices 0–3 (Q1–4)
+            content: `Bow: You know I'm a real fan of K-pop. I just love Lalita.
+
+Nan: Lalita? You mean the singer from that famous Thai girl group?
+
+Bow: Yeah. Did you hear (1) ______ about Lalita? She (2) ______ that crazy Korean guy.
+
+Nan: (3) ______ I thought she was living in the US.
+
+Bow: No, she moved back to Korea last year.
+
+Nan: Oh really? I don't follow K-pop much.
+
+Bow: What? It's everywhere!
+
+Nan: No, sorry. (4) ______`
+        },
+        {
+            title: "Conversation 2",
+            questionRange: { start: 4, end: 7 }, // ADDED: answerSheet indices 4–7 (Q5–8)
+            content: `Prof. Lee: So, with that, I conclude that AI cannot truly create original music.
+
+Student: But professor, AI can compose songs now.
+
+Prof. Lee: It can only "cut-and-paste" from music already written. (5) ______
+
+Student: Well, (6) ______ even human composers take ideas from others.
+
+Prof. Lee: That's true, but humans have emotions.
+
+Student: May I ask, (7) ______?
+
+Prof. Lee: I prefer classical music.
+
+Student: (8) ______`
+        },
+        {
+            title: "Conversation 3",
+            questionRange: { start: 8, end: 11 }, // ADDED: answerSheet indices 8–11 (Q9–12)
+            content: `Teacher: OK, for homework, you will create a short video presentation.
+
+Student: (9) ______
+
+Teacher: Yes, you can use slides.
+
+Student: (10) ______
+
+Teacher: Yes, but make sure it is appropriate.
+
+Student: (11) ______
+
+Teacher: That's fine, but the information must be correct.
+
+Student: (12) ______
+
+Teacher: I'm glad you feel that way.`
+        },
+        {
+            title: "Long Conversation",
+            questionRange: { start: 12, end: 19 }, // ADDED: answerSheet indices 12–19 (Q13–20)
+            content: `Pum: Hi again, Miko. Are you OK?
+
+Miko: No, (13) ______ and I need someone to talk to.
+
+Pum: Oh no, what happened?
+
+Miko: We had a fight. (14) ______ I've been depressed all night.
+
+Pum: That sounds serious.
+
+Miko: (15) ______ she lives in Tokyo.
+
+Pum: That must be difficult.
+
+Miko: Since you are Japanese, (16) ______
+
+Pum: I'll try my best to help.
+
+Miko: He sent her a ring to show he's (17) ______
+
+Pum: Wow.
+
+Miko: (18) ______ did he ever give you a ring?
+
+Pum: No, never.
+
+Miko: He (19) ______ me that he had no girlfriend.
+
+Pum: That's terrible.
+
+Miko: (20) ______ I can't believe it!`
+        }
+    ]
+};
+
+const answerSheet = [
+    { no: 1,  choices: ['the news', 'the sound', 'the sports', 'the weather'],                                                                                                  answer: 0 },
+    { no: 2,  choices: ['applied for', 'jumped into', 'moved away', 'got married to'],                                                                                          answer: 3 },
+    { no: 3,  choices: ['Forget it!', 'Be careful!', "You're kidding!", 'Congratulations!'],                                                                                    answer: 2 },
+    { no: 4,  choices: ['I sure do.', "I didn't mean to do that.", 'Pop culture is not my thing.', 'Music is a good way to relax.'],                                            answer: 2 },
+
+    { no: 5,  choices: ['Do you get my point?', "What's the point of asking?", 'Can you point out the answer?', 'Would you please get to the point?'],                          answer: 0 },
+    { no: 6,  choices: ['In other words,', 'On the other hand,', 'One and the same,', 'To say it another way,'],                                                                answer: 1 },
+    { no: 7,  choices: ['which music do people prefer?', 'which style of music do you prefer?', 'what music is a favorite of everyone?', 'what style of music is preferred by all?'], answer: 1 },
+    { no: 8,  choices: ['True. Parents work very hard.', 'I know. It takes years.', 'Yeah, when I was younger, the older folks hated my music, too.', 'Absolutely. Listening to music at home brings families together.'], answer: 2 },
+
+    { no: 9,  choices: ['Is it ok if we take a break now?', 'Can I use slides for this assignment?', 'Will you give answers next week?', 'Should we answer in complete sentences?'], answer: 1 },
+    { no: 10, choices: ['How long should we make our VDO?', 'Can I use something funny from TikTok?', 'Does everybody have to speak?', 'Will we get a lower score?'],             answer: 1 },
+    { no: 11, choices: ["I don't even mind if it's a cartoon, but the information must be true.", 'I want you to have fun, not learn.', 'Spend time even if info is false.', 'Many websites are fake.'], answer: 0 },
+    { no: 12, choices: ['I agree. Learning is funny.', 'You need to improve.', "I'm happy to hear that.", 'Thanks. Others may complain.'],                                       answer: 2 },
+
+    { no: 13, choices: ['I just broke up with my boyfriend.', 'we just had a sunrise.', 'I bought clothes.', 'I came back from holiday.'],                                      answer: 0 },
+    { no: 14, choices: ['Nevertheless,', 'As you can imagine,', 'More often than not,', 'All things considered,'],                                                              answer: 1 },
+    { no: 15, choices: ['In other words,', 'Needless to say,', 'On the other hand,', 'As a matter of fact,'],                                                                   answer: 3 },
+    { no: 16, choices: ['you speak English well.', 'I thought you could give me advice.', 'tell me best part.', 'we could meet.'],                                               answer: 1 },
+    { no: 17, choices: ['worried about grades.', 'bored of anime.', 'honest about the relationship.', 'jealous of car.'],                                                        answer: 2 },
+    { no: 18, choices: ['Tell me', 'Say to me', 'Talk to me', 'Speak to me'],                                                                                                   answer: 0 },
+    { no: 19, choices: ['advised', 'promised', 'accused', 'respected'],                                                                                                         answer: 1 },
+    { no: 20, choices: ["We're so lucky!", "He's a dream come true.", 'He gave us the same rings.', 'We should celebrate.'],                                                    answer: 2 }
+];
+
+// Build standard ExamRoom data from answerSheet (used by existing startExam / submitExam logic)
+const aLevelEnglishData = {
+    id: 'EX002',
+    title: 'A-Level ภาษาอังกฤษ (Listening & Speaking)',
+    subtitle: 'มีนาคม 2568',
+    totalQuestions: 20,
+    duration: 30,
+    // Flag this exam as passage-based so ExamRoom can switch mode
+    isPassageBased: true,
+    examContent: examContent,
+    answerSheet: answerSheet,
+    // questions array keeps the existing submit/score pipeline working
+    questions: answerSheet.map(item => ({
+        no: item.no,
+        type: 'choice',
+        text: `ข้อ ${item.no} — เลือกคำตอบที่ถูกต้อง`,
+        choices: item.choices,
+        answer: item.answer
+    }))
+};

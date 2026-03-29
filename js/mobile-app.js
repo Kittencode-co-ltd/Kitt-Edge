@@ -67,7 +67,7 @@ const MobileApp = {
             }
             
             // Show/hide bottom nav and header for full screen pages
-            const isFullScreen = ['exam-room', 'camera', 'subscription', 'splash', 'auth', 'profile-setup', 'notifications', 'payment'].includes(pageName);
+            const isFullScreen = ['exam-room', 'camera', 'scan-result', 'subscription', 'splash', 'auth', 'profile-setup', 'notifications', 'payment'].includes(pageName);
             const bottomNav = document.querySelector('.bottom-nav');
             const header = document.querySelector('.mobile-header');
             const fab = document.getElementById('fab');
@@ -95,6 +95,12 @@ const MobileApp = {
             }
             if (pageName === 'notifications') this.renderNotifications();
             if (pageName === 'payment') this.renderPayment();
+            if (pageName === 'scan-result') {
+                if (typeof ScanResult !== 'undefined') {
+                    const captured = sessionStorage.getItem('scanCapturedImage') || null;
+                    ScanResult.init(captured);
+                }
+            }
             
             // Scroll to top
             mainContent.scrollTop = 0;
@@ -778,6 +784,8 @@ const MobileApp = {
         let examDataObj = null;
         if (examId === 'EX001') {
             examDataObj = aLevelMath1Data;
+        } else if (examId === 'EX002') {
+            examDataObj = aLevelEnglishData;
         }
 
         if (!examDataObj) {

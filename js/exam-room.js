@@ -10,6 +10,10 @@ const ExamRoom = {
     secondsLeft: 0,
     startTime: null,
 
+    // MODIFIED: mode + group state for group-by-group flow
+    mode: 'reading',      // 'reading' | 'answer'
+    currentGroup: 0,      // which passage group we are on
+
     // Initialize and start exam
     init(examDataObj) {
         this.examData = examDataObj;
@@ -21,8 +25,20 @@ const ExamRoom = {
         document.getElementById('examRoomName').textContent = examDataObj.title;
         document.getElementById('examRoomSubtitle').textContent = examDataObj.subtitle;
 
-        this.buildQuestionGrid();
-        this.renderQuestion();
+        // MODIFIED: choose start mode based on exam type
+        if (examDataObj.isPassageBased) {
+            this.mode = 'reading';
+            this.currentGroup = 0;
+            // Hide the question-dot grid (not used in passage mode)
+            const bottomNav = document.querySelector('.exam-bottom-nav');
+            if (bottomNav) bottomNav.style.display = 'none';
+            this.renderReadingPage();
+        } else {
+            this.mode = 'answer';
+            this.buildQuestionGrid();
+            this.renderQuestion();
+        }
+
         this.startTimer();
 
         // Back button
@@ -56,8 +72,190 @@ const ExamRoom = {
         this.renderQuestion();
     },
 
-    // Render current question
+    // MODIFIED: Render the reading page for the CURRENT group only
+    renderReadingPage() {
+        const area = document.getElementById('examQuestionArea');
+        if (!area || !this.examData.examContent) return;
+
+        const passages = this.examData.examContent.passages;
+        const p = passages[this.currentGroup];
+        const totalGroups = passages.length;
+        const { start, end } = p.questionRange;
+        const groupTotal = end - start + 1;
+        const groupAnswered = Object.keys(this.answers)
+            .filter(k => +k >= start && +k <= end).length;
+
+        // Highlight blank numbers as clickable jumps
+        const contentHtml = p.content
+            .replace(/\n/g, '<br>')
+            .replace(/\((\d+)\)/g, (_, n) =>
+                `<span class="blank-num" onclick="ExamRoom.jumpToQuestion(${parseInt(n) - 1})">(${n})</span>`);
+
+        // Build group dot stepper
+        const stepperHtml = passages.map((pg, gi) => {
+            const { start: s, end: e } = pg.questionRange;
+            const done = Object.keys(this.answers).filter(k => +k >= s && +k <= e).length;
+            const cls = gi === this.currentGroup ? 'active' : (done === e - s + 1 ? 'complete' : '');
+            return `<button class="group-dot ${cls}" onclick="ExamRoom.jumpToGroup(${gi})" title="${pg.title}">${gi + 1}</button>`;
+        }).join('');
+
+        // Overall progress bar
+        const totalQ = this.examData.questions.length;
+        const totalAnswered = Object.keys(this.answers).length;
+        const bar = document.getElementById('examProgressBar');
+        if (bar) bar.style.width = `${(totalAnswered / totalQ) * 100}%`;
+
+        area.innerHTML = `
+            <div class="reading-page">
+                <div class="group-stepper">${stepperHtml}</div>
+                <div class="reading-header">
+                    <i class="fas fa-book-open"></i>
+                    <span>${p.title}</span>
+                    <span class="group-badge">${this.currentGroup + 1} / ${totalGroups}</span>
+                </div>
+                <p class="reading-hint">
+                    อ่านบทสนทนา แล้วกด <strong>Start Answering</strong> เพื่อตอบข้อ ${start + 1}–${end + 1}<br>
+                    หรือกดที่ <span class="blank-num-demo">(${start + 1})</span> เพื่อข้ามไปยังข้อนั้นโดยตรง
+                </p>
+                <div class="passage-card">
+                    <div class="passage-title">${p.title}</div>
+                    <div class="passage-body">${contentHtml}</div>
+                </div>
+                <button class="go-to-answer-btn" onclick="ExamRoom.nextStep()">
+                    <i class="fas fa-pen-to-square"></i> Start Answering (${groupAnswered}/${groupTotal} ตอบแล้ว)
+                </button>
+            </div>`;
+    },
+
+    // MODIFIED: Render the answer page for the CURRENT group only
+    renderAnswerPage() {
+        const area = document.getElementById('examQuestionArea');
+        if (!area || !this.examData.answerSheet) return;
+
+        const passages = this.examData.examContent.passages;
+        const p = passages[this.currentGroup];
+        const { start, end } = p.questionRange;
+        const totalQ = this.examData.questions.length;
+        const totalAnswered = Object.keys(this.answers).length;
+        const isLastGroup = this.currentGroup === passages.length - 1;
+
+        // Update overall progress bar
+        const bar = document.getElementById('examProgressBar');
+        if (bar) bar.style.width = `${(totalAnswered / totalQ) * 100}%`;
+
+        const choiceLabels = ['A', 'B', 'C', 'D'];
+
+        // Render only this group's questions
+        const questionsHtml = this.examData.answerSheet
+            .slice(start, end + 1)
+            .map((item, localIdx) => {
+                const idx = start + localIdx; // global index
+                const choicesHtml = item.choices.map((c, ci) => {
+                    const sel = this.answers[idx] === ci ? 'selected' : '';
+                    return `<button class="as-choice-btn ${sel}" onclick="ExamRoom.selectAnswerSheetChoice(${idx}, ${ci})">
+                        <span class="as-choice-label">${choiceLabels[ci]}</span>
+                        <span class="as-choice-text">${c}</span>
+                    </button>`;
+                }).join('');
+                const isDone = this.answers[idx] !== undefined;
+                return `
+                    <div class="as-question-card ${isDone ? 'answered' : ''}" id="asq-${idx}">
+                        <div class="as-q-number">ข้อ ${item.no}</div>
+                        <div class="as-choices">${choicesHtml}</div>
+                    </div>`;
+            }).join('');
+
+        const groupAnswered = Object.keys(this.answers).filter(k => +k >= start && +k <= end).length;
+        const groupTotal = end - start + 1;
+
+        const nextBtnHtml = isLastGroup
+            ? `<button class="exam-submit-inline-btn" onclick="ExamRoom.submitExam()">
+                    <i class="fas fa-paper-plane"></i> ส่งข้อสอบ
+               </button>`
+            : `<button class="go-to-answer-btn" style="margin-top:8px" onclick="ExamRoom.nextStep()">
+                    <i class="fas fa-arrow-right"></i> Next: ${passages[this.currentGroup + 1].title}
+               </button>`;
+
+        area.innerHTML = `
+            <div class="answer-sheet-page">
+                <div class="answer-sheet-header">
+                    <button class="back-to-reading-btn" onclick="ExamRoom.goToReading()">
+                        <i class="fas fa-arrow-left"></i> อ่านบทสนทนา
+                    </button>
+                    <span class="as-progress-label">${groupAnswered}/${groupTotal} · รวม ${totalAnswered}/${totalQ}</span>
+                </div>
+                <div class="as-section-label">${p.title} — ข้อ ${start + 1}–${end + 1}</div>
+                <div class="as-questions-list">${questionsHtml}</div>
+                ${nextBtnHtml}
+            </div>`;
+
+        // Scroll to targeted question if set
+        if (this._scrollToQ !== undefined) {
+            const el = document.getElementById(`asq-${this._scrollToQ}`);
+            if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+            this._scrollToQ = undefined;
+        }
+    },
+
+    // ADDED: Advance through the group-by-group flow
+    nextStep() {
+        const passages = this.examData.examContent.passages;
+        if (this.mode === 'reading') {
+            // reading → answer for this group
+            this.mode = 'answer';
+            this.renderAnswerPage();
+        } else {
+            // answer → next group reading (or done)
+            if (this.currentGroup < passages.length - 1) {
+                this.currentGroup++;
+                this.mode = 'reading';
+                this.renderReadingPage();
+                document.getElementById('examQuestionArea').scrollTop = 0;
+            } else {
+                // last group answered → submit
+                this.submitExam();
+            }
+        }
+    },
+
+    // ADDED: Jump directly to a group's reading page
+    jumpToGroup(groupIdx) {
+        this.currentGroup = groupIdx;
+        this.mode = 'reading';
+        this.renderReadingPage();
+    },
+
+    // MODIFIED: Go back to reading for the current group
+    goToReading() {
+        this.mode = 'reading';
+        this.renderReadingPage();
+    },
+
+    // Select choice from the Answer Sheet Page
+    selectAnswerSheetChoice(qIdx, choiceIdx) {
+        this.answers[qIdx] = choiceIdx;
+        this.renderAnswerPage();
+    },
+
+    // MODIFIED: Jump to a question — finds the correct group automatically
+    jumpToQuestion(qIdx) {
+        const passages = this.examData.examContent.passages;
+        const groupIdx = passages.findIndex(p => qIdx >= p.questionRange.start && qIdx <= p.questionRange.end);
+        if (groupIdx !== -1) this.currentGroup = groupIdx;
+        this.mode = 'answer';
+        this._scrollToQ = qIdx;
+        this.renderAnswerPage();
+    },
+
+    // Render current question (used for non-passage exams)
     renderQuestion() {
+        // MODIFIED: dispatch to reading/answer page for passage-based exams
+        if (this.examData && this.examData.isPassageBased) {
+            if (this.mode === 'reading') this.renderReadingPage();
+            else this.renderAnswerPage();
+            return;
+        }
+
         const q = this.examData.questions[this.currentQ];
         const total = this.examData.questions.length;
         const area = document.getElementById('examQuestionArea');

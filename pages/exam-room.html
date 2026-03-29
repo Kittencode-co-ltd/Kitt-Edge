@@ -1,48 +1,48 @@
-            <div class="page" id="examRoomPage">
-                <!-- Exam Header -->
-                <div class="exam-room-header">
-                    <button class="exam-back-btn" id="examBackBtn">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <div class="exam-room-title">
-                        <span id="examRoomName">ข้อสอบ</span>
-                        <span id="examRoomSubtitle" class="exam-room-subtitle"></span>
-                    </div>
-                    <div class="exam-timer" id="examTimer">
-                        <i class="fas fa-clock"></i>
-                        <span id="timerDisplay">90:00</span>
-                    </div>
-                </div>
+<div class="page" id="examRoomPage">
+    <!-- Exam Header -->
+    <div class="exam-room-header">
+        <button class="exam-back-btn" id="examBackBtn">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="exam-room-title">
+            <span id="examRoomName">ข้อสอบ</span>
+            <span id="examRoomSubtitle" class="exam-room-subtitle"></span>
+        </div>
+        <div class="exam-timer" id="examTimer">
+            <i class="fas fa-clock"></i>
+            <span id="timerDisplay">90:00</span>
+        </div>
+    </div>
 
-                <!-- Progress Bar -->
-                <div class="exam-progress-bar-wrap">
-                    <div class="exam-progress-bar-fill" id="examProgressBar" style="width:0%"></div>
-                </div>
+    <!-- Progress Bar -->
+    <div class="exam-progress-bar-wrap">
+        <div class="exam-progress-bar-fill" id="examProgressBar" style="width:0%"></div>
+    </div>
 
-                <!-- Question Area -->
-                <div class="exam-question-area" id="examQuestionArea">
-                    <!-- Dynamic Content -->
-                </div>
+    <!-- Question Area -->
+    <div class="exam-question-area" id="examQuestionArea">
+        <!-- Dynamic Content -->
+    </div>
 
-                <!-- Bottom Navigation -->
-                <div class="exam-bottom-nav">
-                    <!-- Question Number Grid -->
-                    <div class="question-grid-scroll">
-                        <div class="question-grid" id="questionGrid">
-                            <!-- Dots -->
-                        </div>
-                    </div>
-                    <!-- Prev / Next / Submit -->
-                    <div class="exam-nav-buttons">
-                        <button class="exam-nav-btn" id="prevBtn" onclick="ExamRoom.prevQuestion()">
-                            <i class="fas fa-chevron-left"></i> ก่อนหน้า
-                        </button>
-                        <button class="exam-nav-btn primary" id="nextBtn" onclick="ExamRoom.nextQuestion()">
-                            ถัดไป <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="exam-submit-btn" id="submitBtn" onclick="ExamRoom.submitExam()" style="display:none">
-                            <i class="fas fa-paper-plane"></i> ส่งข้อสอบ
-                        </button>
-                    </div>
-                </div>
+    <!-- Bottom Navigation -->
+    <div class="exam-bottom-nav">
+        <!-- Question Number Grid -->
+        <div class="question-grid-scroll">
+            <div class="question-grid" id="questionGrid">
+                <!-- Dots -->
             </div>
+        </div>
+        <!-- Prev / Next / Submit -->
+        <div class="exam-nav-buttons">
+            <button class="exam-nav-btn" id="prevBtn" onclick="ExamRoom.prevQuestion()">
+                <i class="fas fa-chevron-left"></i> ก่อนหน้า
+            </button>
+            <button class="exam-nav-btn primary" id="nextBtn" onclick="ExamRoom.nextQuestion()">
+                ถัดไป <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="exam-submit-btn" id="submitBtn" onclick="ExamRoom.submitExam()" style="display:none">
+                <i class="fas fa-paper-plane"></i> ส่งข้อสอบ
+            </button>
+        </div>
+    </div>
+</div>
