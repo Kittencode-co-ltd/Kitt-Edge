@@ -148,17 +148,16 @@ const MobileApp = {
         if (!container || !this.data.subjects) return;
         
         const icons = {
-            math: '📐',
-            science: '🔬',
-            english: '📖',
-            thai: '📚',
-            social: '🏛️'
+            chapter1: '<i class="fas fa-headphones"></i>',
+            chapter2: '<i class="fas fa-microphone"></i>',
+            chapter3: '<i class="fas fa-book-reader"></i>',
+            chapter4: '<i class="fas fa-pen-nib"></i>'
         };
         
         container.innerHTML = this.data.subjects.map(subject => `
             <div class="subject-item" onclick="MobileApp.openSubject('${subject.id}')">
-                <div class="subject-icon" style="background: ${subject.color}20; font-size: 28px;">
-                    ${icons[subject.id] || '📚'}
+                <div class="subject-icon" style="color: ${subject.color}; background: ${subject.color}15; font-size: 24px;">
+                    ${icons[subject.id] || '<i class="fas fa-book"></i>'}
                 </div>
                 <div class="subject-info">
                     <div class="subject-name">${subject.nameTH}</div>
@@ -175,13 +174,6 @@ const MobileApp = {
     renderQuestions() {
         const container = document.getElementById('questionCarousel');
         if (!container || !this.data.questions) return;
-        
-        const subjectColors = {
-            math: '#4F46E5',
-            science: '#10B981',
-            english: '#F59E0B',
-            thai: '#EC4899'
-        };
         
         container.innerHTML = this.data.questions.slice(0, 5).map(q => `
             <div class="question-card-mobile ${q.subject}" onclick="MobileApp.startQuestion('${q.id}')">
@@ -259,10 +251,10 @@ const MobileApp = {
         // Simulate AI response
         setTimeout(() => {
             const responses = [
-                "คำถามน่าสนใจมากค่ะ! ลองคิดดูว่า...",
-                "จุดนี้สำคัญมากในการสอบนะคะ...",
-                "ผมมีโจทย์คล้ายๆ กันอยากให้น้องลองทำดูไหมคะ?",
-                "ถูกต้องค่ะ! แต่มีวิธีคิดที่เร็วกว่านี้ด้วย..."
+                "คำถามเกี่ยวกับการฟังและการพูดน่าสนใจมากค่ะ! ลองคิดดูว่า...",
+                "จุดนี้สำคัญมากในประวัติศาสตร์พิษณุโลกนะคะ...",
+                "ครูมีเทคนิคการจับใจความมาฝาก อยากให้น้องลองนำไปใช้ดูไหมคะ?",
+                "ถูกต้องค่ะ! การเขียนเรียงความที่ดีต้องอาศัยการฝึกฝนและจัดระเบียบความคิด..."
             ];
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
             this.addMessage('ai', randomResponse);
@@ -783,9 +775,9 @@ const MobileApp = {
         // Find the exam data
         let examDataObj = null;
         if (examId === 'EX001') {
-            examDataObj = aLevelMath1Data;
+            examDataObj = phitsanulokHistoryExamData;
         } else if (examId === 'EX002') {
-            examDataObj = aLevelEnglishData;
+            examDataObj = thaiGrammarExamData;
         }
 
         if (!examDataObj) {

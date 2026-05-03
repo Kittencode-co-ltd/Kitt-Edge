@@ -6,146 +6,93 @@ const mockData = {
         avatar: "assets/images/avatar.png"
     },
     subjects: [
-        { id: "math", nameTH: "คณิตศาสตร์", proficiency: 85, color: "#4F46E5" },
-        { id: "science", nameTH: "วิทยาศาสตร์", proficiency: 72, color: "#10B981" },
-        { id: "english", nameTH: "ภาษาอังกฤษ", proficiency: 64, color: "#F59E0B" },
-        { id: "thai", nameTH: "ภาษาไทย", proficiency: 90, color: "#EC4899" },
-        { id: "social", nameTH: "สังคมศึกษา", proficiency: 83, color: "#fad763ff" }
+        { id: "chapter1", nameTH: "บทที่ 1: การฟัง", proficiency: 85, color: "#8B5CF6" },
+        { id: "chapter2", nameTH: "บทที่ 2: การพูด", proficiency: 72, color: "#10B981" },
+        { id: "chapter3", nameTH: "บทที่ 3: การอ่าน", proficiency: 64, color: "#F97316" },
+        { id: "chapter4", nameTH: "บทที่ 4: การเขียน", proficiency: 90, color: "#EC4899" }
     ],
     questions: [
         {
             id: "Q001",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "สำหรับเซต S ใดๆ ให้ P(S) แทนเพาเวอร์เซตของ S ให้เซต A = {∅, √2} แล้วเซต P(P(A)) ∪ P(A) มีสมาชิกกี่ตัว",
+            subject: "chapter1",
+            subjectName: "การฟัง",
+            question: "ข้อใดเป็นจุดมุ่งหมายสำคัญที่สุดของการฟังเพื่อจับใจความ",
             difficulty: "medium",
-            estimatedTime: 180,
-            options: ["10", "16", "18", "19", "20"],
-            answer: 2 // index of 18
+            estimatedTime: 60,
+            options: ["เพื่อความสนุกสนาน", "เพื่อสรุปสาระสำคัญของเรื่อง", "เพื่อจับผิดผู้พูด", "เพื่อนำไปเล่าต่อ", "เพื่อประเมินน้ำเสียงผู้พูด"],
+            answer: 1
         },
         {
             id: "Q002",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "ให้ p, q และ r เป็นประพจน์ แล้วประพจน์ใดต่อไปนี้มีค่าความจริงเป็นจริงในบางกรณี และเป็นเท็จในบางกรณี",
-            difficulty: "hard",
-            estimatedTime: 240,
+            subject: "chapter2",
+            subjectName: "การพูด",
+            question: "ข้อใดคือมารยาทที่ดีที่สุดในการพูดในที่สาธารณะ",
+            difficulty: "easy",
+            estimatedTime: 45,
             options: [
-                "(p ∨ ~p) → (r ∧ ~r)",
-                "(~p ∧ q) ∧ (p ∧ r)",
-                "(q → r) ↔ (q ∧ ~r)",
-                "(p ∨ r) ∧ (q ∨ ~r)",
-                "(p ∧ q) ∧ (~p ∨ ~q)"
+                "พูดแทรกเมื่อมีข้อสงสัยทันที",
+                "ใช้ศัพท์สแลงเพื่อให้ดูทันสมัย",
+                "สบตาผู้ฟังอย่างทั่วถึงและเป็นธรรมชาติ",
+                "พูดเสียงดังเกินปกติเพื่อดึงความสนใจ",
+                "อ่านจากโพยกระดาษตลอดเวลา"
             ],
-            answer: 3
+            answer: 2
+        },
+        {
+            id: "Q003",
+            subject: "chapter3",
+            subjectName: "การอ่าน",
+            question: "การอ่านวิเคราะห์หมายถึงข้อใด",
+            difficulty: "medium",
+            estimatedTime: 60,
+            options: [
+                "การอ่านออกเสียงให้ถูกต้อง",
+                "การอ่านเพื่อความบันเทิงเท่านั้น",
+                "การแยกแยะและประเมินคุณค่าของเนื้อหา",
+                "การจำรายละเอียดทุกอย่างในหนังสือ",
+                "การอ่านอย่างรวดเร็วเพื่อหาคำตอบ"
+            ],
+            answer: 2
         },
         {
             id: "Q004",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "สำนักข่าวออนไลน์แห่งหนึ่งมีบริการสำหรับสมาชิกรายเดือน โดยปัจจุบันค่าบริการรายเดือนอยู่ที่ 70 บาทต่อคน และมีสมาชิกอยู่ 18,000 คน หากปรับราคาขึ้นทุกๆ 1 บาทต่อคน จะทำให้สมาชิกลดลง 200 คน ให้ f แทนฟังก์ชันรายได้ต่อเดือนเมื่อเก็บค่าบริการ x บาทต่อคน กราฟของฟังก์ชัน f มีลักษณะอย่างไร",
-            difficulty: "hard",
-            estimatedTime: 300,
-            options: [
-                "เป็นรูปพาราโบลาหงายที่มีจุดยอดที่ x = 0",
-                "เป็นรูปพาราโบลาหงายที่มีจุดยอดที่ x = 70",
-                "เป็นรูปพาราโบลาคว่ำที่มีจุดยอดที่ x = 75",
-                "เป็นรูปพาราโบลาคว่ำที่มีจุดยอดที่ x = 80",
-                "เป็นกราฟเส้นตรงที่มีค่าความชันเป็นบวก"
-            ],
+            subject: "chapter4",
+            subjectName: "การเขียน",
+            question: "ส่วนประกอบใดของเรียงความที่ทำหน้าที่สรุปประเด็นทั้งหมด",
+            difficulty: "easy",
+            estimatedTime: 60,
+            options: ["คำนำ", "เนื้อเรื่อง", "ย่อหน้าขยาย", "สรุป", "อ้างอิง"],
             answer: 3
-        },
-        {
-            id: "Q007",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "ค่าของ cot(π/12) - tan(π/12) ตรงกับข้อใด",
-            difficulty: "medium",
-            estimatedTime: 180,
-            options: ["√3", "2√3", "4√3", "9/2", "15/2"],
-            answer: 1 // 2√3
-        },
-        {
-            id: "Q008",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "กำหนดให้เมทริกซ์แต่งเติมของระบบสมการเชิงเส้นระบบหนึ่งคือ [[1,-2,2,5],[-2,3,-1,-4],[1,-2,1,4]] เมื่อใช้การดำเนินการตามแถวแปลงแล้วได้ [[1,-2,2,a],[0,-1,3,b],[0,0,-1,c]] จงหาค่า a+b+c",
-            difficulty: "hard",
-            estimatedTime: 240,
-            options: ["-10", "-5", "0", "5", "10"],
-            answer: 4 // 10
-        },
-        {
-            id: "Q010",
-            subject: "math",
-            subjectName: "คณิตศาสตร์ประยุกต์ 1",
-            question: "ให้ a_n เป็นลำดับที่สอดคล้องกับ a_n+1 = a_n + n/2 สำหรับทุกจำนวนนับ n ถ้า a_30 = 219 แล้ว a_1 มีค่าเท่ากับเท่าใด",
-            difficulty: "hard",
-            estimatedTime: 240,
-            options: ["-29", "-27/2", "3/2", "16", "30"],
-            answer: 2 // 3/2
         }
     ],
     mockExams: [
         {
             id: "EX001",
-            name: "A-Level คณิตศาสตร์ประยุกต์ 1 (มี.ค. 68)",
-            subject: "math",
-            totalQuestions: 30,
-            duration: 90,
-            status: "not_started"
-        },
-        {
-            id: "EX002",
-            name: "A-Level ภาษาอังกฤษ (Listening & Speaking)",
-            subject: "general",
-            totalQuestions: 20,
+            name: "บทที่ 1 ความเป็นมาของ จังหวัดพิษณุโลก",
+            subject: "history",
+            totalQuestions: 10,
             duration: 30,
             status: "not_started"
         },
         {
+            id: "EX002",
+            name: "แบบทดสอบเรื่อง หลักภาษา",
+            subject: "thai",
+            totalQuestions: 20,
+            duration: 30,
+            status: "unavailable"
+        },
+        {
             id: "EX003",
-            name: "TGAT ความถนัดทั่วไป (ตัวอย่าง)",
-            subject: "general",
-            totalQuestions: 60,
-            duration: 60,
+            name: "แบบทดสอบเรื่อง วรรณคดี",
+            subject: "thai",
+            totalQuestions: 30,
+            duration: 40,
             status: "unavailable"
         },
         {
             id: "EX004",
-            name: "A-Level ฟิสิกส์ (มี.ค. 68) (ตัวอย่าง)",
-            subject: "science",
-            totalQuestions: 30,
-            duration: 90,
-            status: "unavailable"
-        },
-        {
-            id: "EX005",
-            name: "A-Level เคมี (มี.ค. 68) (ตัวอย่าง)",
-            subject: "science",
-            totalQuestions: 40,
-            duration: 90,
-            status: "unavailable"
-        },
-        {
-            id: "EX006",
-            name: "A-Level ภาษาอังกฤษ (มี.ค. 68) (ตัวอย่าง)",
-            subject: "english",
-            totalQuestions: 80,
-            duration: 90,
-            status: "unavailable"
-        },
-        {
-            id: "EX007",
-            name: "TPAT1 ความถนัดแพทย์ (ตัวอย่าง)",
-            subject: "science",
-            totalQuestions: 45,
-            duration: 75,
-            status: "unavailable"
-        },
-        {
-            id: "EX008",
-            name: "A-Level ภาษาไทย (มี.ค. 67) (ตัวอย่าง)",
+            name: "ข้อสอบ A-Level ภาษาไทย",
             subject: "thai",
             totalQuestions: 50,
             duration: 90,
@@ -156,14 +103,14 @@ const mockData = {
         {
             type: "quiz",
             icon: "fa-edit",
-            title: "ทำโจทย์ชุดที่ 12 สำเร็จ",
+            title: "ทำแบบทดสอบเรื่อง ประวัติศาสตร์พิษณุโลก สำเร็จ",
             description: "คะแนนเฉลี่ย 85%",
             time: "2 ชม. ที่แล้ว"
         },
         {
             type: "lesson",
             icon: "fa-book-open",
-            title: "เรียนบทเรียน: เซต",
+            title: "เรียนบทเรียน: การฟัง",
             description: "เรียนจบไปแล้ว 80%",
             time: "5 ชม. ที่แล้ว"
         }
@@ -179,53 +126,53 @@ const mockData = {
         },
         strengths: [
             {
-                subject: "ภาษาไทย",
-                icon: "📚",
+                subject: "บทที่ 4: การเขียน",
+                icon: "✍️",
                 color: "#EC4899",
                 score: 90,
                 topics: [
-                    { name: "การอ่านจับใจความ", level: "เชี่ยวชาญ", score: 95 },
-                    { name: "การเขียนเรียงความ", level: "ดีมาก", score: 88 },
-                    { name: "คำราชาศัพท์", level: "ดีมาก", score: 85 },
-                    { name: "การวิเคราะห์วรรณคดี", level: "ดี", score: 80 }
+                    { name: "การเขียนเรียงความ", level: "เชี่ยวชาญ", score: 95 },
+                    { name: "การเขียนย่อความ", level: "ดีมาก", score: 88 },
+                    { name: "การเขียนจดหมาย", level: "ดีมาก", score: 85 },
+                    { name: "การเขียนรายงาน", level: "ดี", score: 80 }
                 ]
             },
             {
-                subject: "คณิตศาสตร์",
-                icon: "📐",
-                color: "#4F46E5",
+                subject: "บทที่ 1: การฟัง",
+                icon: "🎧",
+                color: "#8B5CF6",
                 score: 85,
                 topics: [
-                    { name: "เซตและตรรกศาสตร์", level: "เชี่ยวชาญ", score: 93 },
-                    { name: "ฟังก์ชัน", level: "ดีมาก", score: 86 },
-                    { name: "เมทริกซ์", level: "ดี", score: 82 },
-                    { name: "ความน่าจะเป็น", level: "ดี", score: 78 }
+                    { name: "การฟังเพื่อจับใจความ", level: "เชี่ยวชาญ", score: 93 },
+                    { name: "การฟังเพื่อวิเคราะห์", level: "ดีมาก", score: 86 },
+                    { name: "มารยาทในการฟัง", level: "ดี", score: 82 },
+                    { name: "การประเมินผู้พูด", level: "ดี", score: 78 }
                 ]
             }
         ],
         weaknesses: [
             {
-                subject: "ภาษาอังกฤษ",
-                icon: "📖",
-                color: "#F59E0B",
-                score: 64,
+                subject: "บทที่ 2: การพูด",
+                icon: "🎤",
+                color: "#10B981",
+                score: 50,
                 topics: [
-                    { name: "Grammar & Error", level: "ต้องพัฒนา", score: 52 },
-                    { name: "Vocabulary in Context", level: "ต้องพัฒนา", score: 58 },
-                    { name: "Reading Comprehension", level: "พอใช้", score: 68 },
-                    { name: "Sentence Ordering", level: "พอใช้", score: 72 }
+                    { name: "การพูดในที่สาธารณะ", level: "ต้องพัฒนา", score: 45 },
+                    { name: "การพูดโน้มน้าวใจ", level: "ต้องพัฒนา", score: 48 },
+                    { name: "มารยาทในการพูด", level: "พอใช้", score: 60 },
+                    { name: "การใช้ภาษาในการพูด", level: "พอใช้", score: 62 }
                 ]
             },
             {
-                subject: "วิทยาศาสตร์",
-                icon: "🔬",
-                color: "#10B981",
-                score: 72,
+                subject: "บทที่ 3: การอ่าน",
+                icon: "📖",
+                color: "#F97316",
+                score: 64,
                 topics: [
-                    { name: "สมดุลเคมี", level: "ต้องพัฒนา", score: 55 },
-                    { name: "อัตราการเกิดปฏิกิริยา", level: "พอใช้", score: 63 },
-                    { name: "ไฟฟ้าเคมี", level: "พอใช้", score: 67 },
-                    { name: "ฟิสิกส์อะตอม", level: "พอใช้", score: 70 }
+                    { name: "การอ่านจับใจความ", level: "ต้องพัฒนา", score: 55 },
+                    { name: "การอ่านวิเคราะห์", level: "พอใช้", score: 63 },
+                    { name: "การอ่านตีความ", level: "พอใช้", score: 67 },
+                    { name: "การประเมินค่า", level: "พอใช้", score: 70 }
                 ]
             }
         ]
@@ -237,10 +184,10 @@ const mockData = {
             senderAvatar: '<i class="fas fa-graduation-cap"></i>',
             isSystemIcon: true,
             avatarBg: '#4F46E5',
-            text: '<b>Kitt-Edge Tutor</b> เพิ่มวิดีโอเฉลยใหม่: "เฉลย A-Level คณิต 1 ข้อ 26-30"',
+            text: '<b>Kitt-Edge Tutor</b> เพิ่มวิดีโอเฉลยใหม่: "เทคนิคการฟังจับใจความ"',
             time: '2 ชั่วโมงที่แล้ว',
             isRead: false,
-            thumbnail: 'assets/images/math_thumb.png'
+            thumbnail: null
         },
         {
             id: 'notif-2',
@@ -248,7 +195,7 @@ const mockData = {
             senderAvatar: '<i class="fas fa-robot"></i>',
             isSystemIcon: true,
             avatarBg: '#10B981',
-            text: 'รายงานผลการเรียนรายสัปดาห์ของคุณพร้อมแล้ว ดูความก้าวหน้าของคุณได้เลย!',
+            text: 'รายงานผลการเรียนรายสัปดาห์ของคุณพร้อมแล้ว ดูความก้าวหน้าการเรียนของคุณได้เลย!',
             time: '5 ชั่วโมงที่แล้ว',
             isRead: false,
             thumbnail: null
@@ -259,7 +206,7 @@ const mockData = {
             senderAvatar: '<i class="fas fa-bullhorn"></i>',
             isSystemIcon: true,
             avatarBg: '#F59E0B',
-            text: 'อัปเดตระบบ: เพิ่ม<b>คลังข้อสอบ TGAT รุ่นใหม่</b> เข้ามาในระบบแล้ว',
+            text: 'อัปเดตระบบ: เพิ่ม<b>ข้อสอบประวัติศาสตร์พิษณุโลก</b> เข้ามาในระบบแล้ว',
             time: '1 วันที่ผ่านมา',
             isRead: true,
             thumbnail: null
@@ -269,7 +216,7 @@ const mockData = {
             sender: 'Community',
             senderAvatar: 'assets/images/user_avatar.png',
             isSystemIcon: false,
-            text: 'มี 2 คนตอบกลับคอมเมนต์ของคุณใน <b>"เทคนิคการเดาศัพท์จากรากศัพท์"</b>',
+            text: 'มี 2 คนตอบกลับคอมเมนต์ของคุณใน <b>"เทคนิคการเขียนเรียงความ"</b>',
             time: '2 วันที่ผ่านมา',
             isRead: true,
             thumbnail: null
