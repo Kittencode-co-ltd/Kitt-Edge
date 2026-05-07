@@ -1,65 +1,50 @@
-<div class="page" id="authPage">
-    <div class="auth-container">
-        <!-- Logo Header -->
-        <div class="auth-header">
-            <div class="auth-logo">
-                <img src="img/logo.png" alt="KITT-EDGE Logo" style="width:72px;height:72px;object-fit:contain;">
+<div class="page" id="authPage" style="overflow-y:auto; height:100%;">
+
+    <!-- Hero header -->
+    <div class="auth-hero">
+        <div class="auth-hero-glow"></div>
+        <div class="auth-hero-content">
+            <div class="auth-logo-wrap">
+                <img src="img/logo.png" alt="Kitt-Edge" style="width:72px;height:72px;object-fit:contain;">
             </div>
+            <h1 class="auth-app-name">Kitt-Edge</h1>
+            <p class="auth-tagline">ระบบวัดและประเมินผลการเรียนรู้<br>ก่อนเรียน — หลังเรียน</p>
         </div>
+        <!-- Decorative circles -->
+        <div class="auth-deco auth-deco-1"></div>
+        <div class="auth-deco auth-deco-2"></div>
+        <div class="auth-deco auth-deco-3"></div>
+    </div>
 
-        <!-- Auth Tabs -->
-        <div class="auth-tabs">
-            <button class="auth-tab active" onclick="AuthApp.switchTab('login')">เข้าสู่ระบบ</button>
-            <button class="auth-tab" onclick="AuthApp.switchTab('register')">สมัครสมาชิก</button>
-        </div>
+    <!-- Form card -->
+    <div class="auth-card">
+        <h2 class="auth-card-title">เข้าสู่ระบบ</h2>
+        <p class="auth-card-sub">ใช้ชื่อผู้ใช้และรหัสผ่านที่ได้รับจากครู</p>
 
-        <!-- Forms -->
-        <div class="auth-body">
-            <!-- Login Form -->
-            <div id="loginForm" class="auth-form active">
-                <div class="form-group">
-                    <label>อีเมล หรือ ชื่อผู้ใช้</label>
-                    <input type="email" placeholder="example@email.com" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label>รหัสผ่าน</label>
-                    <input type="password" placeholder="••••••••" class="form-input">
-                </div>
-                <div class="auth-forgot-password">
-                    <a href="#">ลืมรหัสผ่าน?</a>
-                </div>
-                <button class="btn btn-primary btn-block auth-submit-btn" onclick="AuthApp.login()">เข้าสู่ระบบ</button>
+        <div id="loginForm" class="auth-form active">
 
-                <div class="auth-divider">
-                    <span>หรือเข้าสู่ระบบด้วย</span>
-                </div>
-
-                <div class="social-auth">
-                    <button class="social-btn google"><i class="fa-brands fa-google"></i></button>
-                    <button class="social-btn facebook"><i class="fa-brands fa-facebook"></i></button>
-                    <button class="social-btn apple"><i class="fa-brands fa-apple"></i></button>
-                </div>
+            <div class="auth-input-group">
+                <div class="auth-input-icon"><i class="fas fa-user"></i></div>
+                <input type="text" placeholder="ชื่อผู้ใช้" class="auth-input-field">
             </div>
 
-            <!-- Register Form -->
-            <div id="registerForm" class="auth-form">
-                <div class="form-group">
-                    <label>ชื่อ-นามสกุล</label>
-                    <input type="text" placeholder="ชื่อ นามสกุล" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label>อีเมล</label>
-                    <input type="email" placeholder="example@email.com" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label>รหัสผ่าน</label>
-                    <input type="password" placeholder="สร้างรหัสผ่าน 8 ตัวอักษรขึ้นไป" class="form-input">
-                </div>
-                <button class="btn btn-primary btn-block auth-submit-btn mt-4"
-                    onclick="AuthApp.register()">สร้างบัญชีฟรี</button>
-                <p class="auth-terms">การสมัครสมาชิกถือว่าคุณยอมรับ <a href="#">ข้อตกลงการใช้งาน</a> และ <a
-                        href="#">นโยบายความเป็นส่วนตัว</a></p>
+            <div class="auth-input-group">
+                <div class="auth-input-icon"><i class="fas fa-lock"></i></div>
+                <input type="password" placeholder="รหัสผ่าน" class="auth-input-field" id="authPassword">
+                <button class="auth-eye-btn" onclick="AuthApp.togglePassword()" type="button">
+                    <i class="fas fa-eye" id="eyeIcon"></i>
+                </button>
             </div>
+
+            <div class="auth-forgot">
+                <a href="#">ลืมรหัสผ่าน?</a>
+            </div>
+
+            <button class="auth-login-btn" onclick="AuthApp.login()">
+                <i class="fas fa-arrow-right-to-bracket"></i>
+                เข้าสู่ระบบ
+            </button>
         </div>
     </div>
+
 </div>

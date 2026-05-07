@@ -2,7 +2,7 @@
     <!-- Header with Gradient -->
     <div
         style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: calc(20px + var(--safe-area-top)) 20px 40px; position: relative; color: white; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: var(--shadow-md);">
-        <button id="setupBackButton" class="icon-btn" onclick="MobileApp.navigate('profile')" style="position: absolute; top: calc(16px + var(--safe-area-top)); left: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.2); display: none; align-items: center; justify-content: center; border: none; outline: none; border-radius: 50%; color: white; cursor: pointer;">
+        <button id="setupBackButton" class="icon-btn" onclick="MobileApp.navigate('profile'); MobileApp.updateNavActive('profile')" style="position: absolute; top: calc(16px + var(--safe-area-top)); left: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; border: none; outline: none; border-radius: 50%; color: white; cursor: pointer;">
             <i class="fas fa-chevron-left"></i>
         </button>
         <div style="text-align: center; margin-top: 10px;">

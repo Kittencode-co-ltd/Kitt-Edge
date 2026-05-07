@@ -68,11 +68,12 @@ const mockData = {
     mockExams: [
         {
             id: "EX001",
-            name: "บทที่ 1 ความเป็นมาของ จังหวัดพิษณุโลก",
-            subject: "history",
-            totalQuestions: 10,
+            name: "บทที่ 6: พิษณุโลกวิปโยค",
+            subject: "thai",
+            totalQuestions: 8,
             duration: 30,
-            status: "not_started"
+            status: "not_started",
+            tag: "ก่อนเรียน"
         },
         {
             id: "EX002",
@@ -84,10 +85,10 @@ const mockData = {
         },
         {
             id: "EX003",
-            name: "แบบทดสอบเรื่อง วรรณคดี",
-            subject: "thai",
-            totalQuestions: 30,
-            duration: 40,
+            name: "บทที่ 1 ความเป็นมาของ จังหวัดพิษณุโลก",
+            subject: "history",
+            totalQuestions: 10,
+            duration: 30,
             status: "unavailable"
         },
         {
@@ -113,6 +114,43 @@ const mockData = {
             title: "เรียนบทเรียน: การฟัง",
             description: "เรียนจบไปแล้ว 80%",
             time: "5 ชม. ที่แล้ว"
+        }
+    ],
+    chapters: [
+        {
+            id: "chapter1", nameTH: "บทที่ 1: การฟัง",
+            color: "#8B5CF6", icon: "fa-headphones",
+            preScore: 62, postScore: 85, worksheetDone: true, status: "done"
+        },
+        {
+            id: "chapter2", nameTH: "บทที่ 2: การพูด",
+            color: "#10B981", icon: "fa-microphone",
+            preScore: 55, postScore: 72, worksheetDone: true, status: "done"
+        },
+        {
+            id: "chapter3", nameTH: "บทที่ 3: การอ่าน",
+            color: "#F97316", icon: "fa-book-reader",
+            preScore: 48, postScore: null, worksheetDone: false, status: "in_progress"
+        },
+        {
+            id: "chapter4", nameTH: "บทที่ 4: การเขียน",
+            color: "#EC4899", icon: "fa-pen-nib",
+            preScore: 70, postScore: null, worksheetDone: false, status: "in_progress"
+        },
+        {
+            id: "chapter5", nameTH: "บทที่ 5: วรรณคดี",
+            color: "#0EA5E9", icon: "fa-scroll",
+            preScore: null, postScore: null, worksheetDone: false, status: "not_started"
+        },
+        {
+            id: "chapter6", nameTH: "บทที่ 6: พิษณุโลกวิปโยค",
+            color: "#F59E0B", icon: "fa-spell-check",
+            preScore: null, postScore: null, worksheetDone: false, status: "not_started"
+        },
+        {
+            id: "chapter7", nameTH: "บทที่ 7: การแต่งคำประพันธ์",
+            color: "#6366F1", icon: "fa-feather",
+            preScore: null, postScore: null, worksheetDone: false, status: "not_started"
         }
     ],
     progress: {

@@ -438,130 +438,142 @@ const MobileApp = {
 
     // Render Progress
     renderProgress() {
-        if (!this.data.progress) return;
-        
-        // 1. Render Summary
-        const summaryContainer = document.getElementById('progressSummary');
-        if (summaryContainer) {
-            summaryContainer.innerHTML = `
-                <div class="progress-stat-card">
-                    <span class="progress-stat-value">${this.data.progress.summary.overallScore}%</span>
-                    <span class="progress-stat-label">คะแนนเฉลี่ย</span>
+        const chapters = mockData.chapters || [];
+
+        // ── 1. Summary strip ──────────────────────────────────
+        const done       = chapters.filter(c => c.status === 'done').length;
+        const withPre    = chapters.filter(c => c.preScore !== null);
+        const withPost   = chapters.filter(c => c.postScore !== null);
+        const avgPre     = withPre.length  ? Math.round(withPre.reduce((s,c)=>s+c.preScore,0)  / withPre.length)  : '—';
+        const avgPost    = withPost.length ? Math.round(withPost.reduce((s,c)=>s+c.postScore,0) / withPost.length) : '—';
+
+        const summaryEl = document.getElementById('devSummary');
+        if (summaryEl) {
+            summaryEl.innerHTML = `
+                <div class="dev-stat">
+                    <span class="dev-stat-val">${done}<span class="dev-stat-total">/${chapters.length}</span></span>
+                    <span class="dev-stat-label">บทเรียนเสร็จ</span>
                 </div>
-                <div class="progress-stat-card">
-                    <span class="progress-stat-value">${this.data.progress.summary.studyHours}h</span>
-                    <span class="progress-stat-label">เวลาเรียน</span>
+                <div class="dev-stat-divider"></div>
+                <div class="dev-stat">
+                    <span class="dev-stat-val pre-color">${avgPre}${typeof avgPre==='number'?'%':''}</span>
+                    <span class="dev-stat-label">เฉลี่ยก่อนเรียน</span>
                 </div>
-                <div class="progress-stat-card">
-                    <span class="progress-stat-value">${this.data.progress.summary.completedExams}</span>
-                    <span class="progress-stat-label">ข้อสอบที่ทำ</span>
-                </div>
-            `;
+                <div class="dev-stat-divider"></div>
+                <div class="dev-stat">
+                    <span class="dev-stat-val post-color">${avgPost}${typeof avgPost==='number'?'%':''}</span>
+                    <span class="dev-stat-label">เฉลี่ยหลังเรียน</span>
+                </div>`;
         }
 
-        // 2. Render Chart
-        const ctx = document.getElementById('progressChart');
+        // ── 2. Chart: grouped bar (ก่อน/หลัง per chapter) ──────
+        const ctx = document.getElementById('devChart');
         if (ctx) {
-            // Destroy existing chart if it exists to avoid overlapping
-            let chartStatus = Chart.getChart("progressChart");
-            if (chartStatus != undefined) {
-                chartStatus.destroy();
-            }
+            const existing = Chart.getChart('devChart');
+            if (existing) existing.destroy();
+
+            const labels   = chapters.map(c => c.nameTH.replace('บทที่ ', 'บท ').split(':')[0].trim());
+            const preData  = chapters.map(c => c.preScore  ?? null);
+            const postData = chapters.map(c => c.postScore ?? null);
 
             new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
-                    labels: this.data.progress.weeks.map(w => `สัปดาห์ ${w}`),
+                    labels,
                     datasets: [
                         {
-                            label: 'คะแนนเฉลี่ย (%)',
-                            data: this.data.progress.scores,
-                            borderColor: '#1e3a8a',
-                            backgroundColor: 'rgba(30, 58, 138, 0.1)',
-                            tension: 0.4,
-                            fill: true
+                            label: 'ก่อนเรียน',
+                            data: preData,
+                            backgroundColor: 'rgba(148,163,184,0.7)',
+                            borderRadius: 4,
+                            borderSkipped: false,
                         },
                         {
-                            label: 'ทำนายคะแนน (%)',
-                            data: this.data.progress.predictedScores || [],
-                            borderColor: '#1e3a8a',
-                            borderDash: [5, 5],
-                            tension: 0.4,
-                            fill: false
+                            label: 'หลังเรียน',
+                            data: postData,
+                            backgroundColor: 'rgba(30,58,138,0.85)',
+                            borderRadius: 4,
+                            borderSkipped: false,
                         }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ctx.raw !== null ? `${ctx.dataset.label}: ${ctx.raw}%` : 'ยังไม่มีข้อมูล'
+                            }
+                        }
                     },
                     scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 50,
-                            max: 100
-                        }
+                        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } },
+                        y: { beginAtZero: true, max: 100,
+                             ticks: { callback: v => v + '%', font: { size: 10 } },
+                             grid: { color: 'rgba(0,0,0,0.05)' } }
                     }
                 }
             });
         }
 
-        // 3. Render Subject Mastery
-        const masteryContainer = document.getElementById('progressMastery');
-        if (masteryContainer && this.data.subjects) {
-            masteryContainer.innerHTML = this.data.subjects.map(sub => `
-                <div class="mastery-item">
-                    <div class="mastery-header">
-                        <span>${sub.nameTH}</span>
-                        <span>${sub.proficiency}%</span>
-                    </div>
-                    <div class="mastery-bar-bg">
-                        <div class="mastery-bar-fill" style="width: ${sub.proficiency}%; background: ${sub.color};"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
+        // ── 3. Chapter development cards ──────────────────────
+        const listEl = document.getElementById('devChapterList');
+        if (!listEl) return;
 
-        // 4. Render Strengths and Weaknesses
-        const strContainer = document.getElementById('progressStrengths');
-        if (strContainer) {
-            strContainer.innerHTML = this.data.progress.strengths.map(item => `
-                <div class="insight-item clickable" onclick="MobileApp.showInsightDetail(${JSON.stringify(item).replace(/"/g, '&quot;')}, 'strength')">
-                    <div class="insight-item-left">
-                        <span class="insight-emoji">${item.icon}</span>
-                        <div>
-                            <div class="insight-subject">${item.subject}</div>
-                            <div class="insight-top-topic">${item.topics[0].name}</div>
-                        </div>
+        const STATUS_LABEL = { done: 'เสร็จแล้ว', in_progress: 'กำลังเรียน', not_started: 'ยังไม่เริ่ม' };
+        const STATUS_CLASS = { done: 'status-done', in_progress: 'status-progress', not_started: 'status-none' };
+
+        listEl.innerHTML = chapters.map(ch => {
+            const hasPre  = ch.preScore  !== null;
+            const hasPost = ch.postScore !== null;
+            const delta   = hasPre && hasPost ? ch.postScore - ch.preScore : null;
+            const deltaSign = delta !== null ? (delta >= 0 ? '+' : '') : '';
+            const deltaClass = delta === null ? '' : delta > 0 ? 'delta-up' : delta < 0 ? 'delta-down' : 'delta-same';
+
+            const preBar  = hasPre  ? ch.preScore  : 0;
+            const postBar = hasPost ? ch.postScore : 0;
+
+            return `
+            <div class="dev-chapter-card">
+                <div class="dev-card-top">
+                    <div class="dev-card-icon" style="background:${ch.color}18; color:${ch.color}">
+                        <i class="fas ${ch.icon}"></i>
                     </div>
-                    <div class="insight-item-right">
-                        <span class="insight-score strength">${item.score}%</span>
-                        <i class="fas fa-chevron-right insight-chevron"></i>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        const weakContainer = document.getElementById('progressWeaknesses');
-        if (weakContainer) {
-            weakContainer.innerHTML = this.data.progress.weaknesses.map(item => `
-                <div class="insight-item clickable" onclick="MobileApp.showInsightDetail(${JSON.stringify(item).replace(/"/g, '&quot;')}, 'weakness')">
-                    <div class="insight-item-left">
-                        <span class="insight-emoji">${item.icon}</span>
-                        <div>
-                            <div class="insight-subject">${item.subject}</div>
-                            <div class="insight-top-topic">${item.topics[0].name}</div>
-                        </div>
-                    </div>
-                    <div class="insight-item-right">
-                        <span class="insight-score weakness">${item.score}%</span>
-                        <i class="fas fa-chevron-right insight-chevron"></i>
+                    <div class="dev-card-title">
+                        <span class="dev-chapter-name">${ch.nameTH}</span>
+                        <span class="dev-status-badge ${STATUS_CLASS[ch.status]}">${STATUS_LABEL[ch.status]}</span>
                     </div>
                 </div>
-            `).join('');
-        }
+
+                <div class="dev-score-row">
+                    <div class="dev-score-box pre">
+                        <span class="dev-score-num">${hasPre ? ch.preScore + '%' : '—'}</span>
+                        <span class="dev-score-lbl">ก่อนเรียน</span>
+                    </div>
+                    <div class="dev-arrow-wrap">
+                        <i class="fas fa-arrow-right dev-arrow"></i>
+                        ${delta !== null ? `<span class="dev-delta ${deltaClass}">${deltaSign}${delta}%</span>` : ''}
+                    </div>
+                    <div class="dev-score-box post">
+                        <span class="dev-score-num">${hasPost ? ch.postScore + '%' : '—'}</span>
+                        <span class="dev-score-lbl">หลังเรียน</span>
+                    </div>
+                </div>
+
+                ${hasPre || hasPost ? `
+                <div class="dev-bars">
+                    <div class="dev-bar-track">
+                        <div class="dev-bar-fill pre-bar" style="width:${preBar}%"></div>
+                    </div>
+                    <div class="dev-bar-track">
+                        <div class="dev-bar-fill post-bar" style="width:${postBar}%; background:${ch.color}"></div>
+                    </div>
+                </div>` : `
+                <div class="dev-empty-hint">ยังไม่มีข้อมูลการสอบ</div>`}
+            </div>`;
+        }).join('');
     },
 
     // Setup Gestures (Swipe)
@@ -778,6 +790,8 @@ const MobileApp = {
             examDataObj = phitsanulokHistoryExamData;
         } else if (examId === 'EX002') {
             examDataObj = thaiGrammarExamData;
+        } else if (examId === 'EX003') {
+            examDataObj = phitsanulokReadingPreTestData;
         }
 
         if (!examDataObj) {

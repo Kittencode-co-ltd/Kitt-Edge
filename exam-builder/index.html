@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Builder — Kitt-Edge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="builder.css">
+</head>
+
+<body>
+
+  <!-- Top bar -->
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-name">Kitt-Edge</span>
+      <span class="brand-sep">|</span>
+      <span class="brand-tool">Exam Builder</span>
+    </div>
+    <div class="exam-meta">
+      <input id="inTitle" type="text" placeholder="ชื่อข้อสอบ..." class="meta-input wide"
+        oninput="B.setMeta('title',this.value)">
+      <input id="inSubtitle" type="text" placeholder="บทเรียน / ชื่อรอง..." class="meta-input"
+        oninput="B.setMeta('subtitle',this.value)">
+      <div class="meta-dur">
+        <i class="fas fa-clock"></i>
+        <input id="inDur" type="number" value="30" min="5" max="180" class="dur-input"
+          oninput="B.setMeta('duration',+this.value)">
+        <span>นาที</span>
+      </div>
+      <button class="btn-export" onclick="B.exportJSON()">
+        <i class="fas fa-file-export"></i> Export JSON
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <div class="workspace">
+
+    <!-- Left: question list -->
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <span>รายการข้อสอบ</span>
+        <span class="badge" id="qBadge">0</span>
+      </div>
+      <div class="q-list" id="qList"></div>
+      <button class="btn-add-q" onclick="B.addQuestion()">
+        <i class="fas fa-plus"></i> เพิ่มข้อสอบ
+      </button>
+    </aside>
+
+    <!-- Right: 3-section editor -->
+    <main class="editor" id="editor">
+
+      <div class="no-selection" id="noSel">
+        <i class="fas fa-pencil-ruler fa-3x"></i>
+        <p>เลือกข้อสอบจากรายการซ้าย<br>หรือกด <strong>เพิ่มข้อสอบ</strong> เพื่อเริ่มต้น</p>
+      </div>
+
+      <div id="editorContent" hidden>
+
+        <!-- ── Section 1: บทความ ── -->
+        <div class="section-card">
+          <div class="sec-head">
+            <div class="sec-num">1</div>
+            <span class="sec-title">บทความ</span>
+            <span class="sec-desc">ข้อความที่ใช้ร่วมกันหลายข้อ (ถ้ามี)</span>
+            <div class="flex-gap"></div>
+            <label class="toggle">
+              <input type="checkbox" id="passToggle" onchange="B.onPassageToggle(this.checked)">
+              <span class="tog-track"><span class="tog-thumb"></span></span>
+            </label>
+          </div>
+          <div id="s1Body" hidden>
+            <div class="sec-body">
+              <div class="row-wrap">
+                <select id="passSelect" class="sel-field" onchange="B.onPassageSelect(this.value)">
+                  <option value="_new">+ สร้างบทความใหม่</option>
+                </select>
+                <button class="btn-icon btn-danger" id="btnDelPass" onclick="B.delPassage()" hidden title="ลบบทความนี้">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+              <input id="passTitle" type="text" placeholder="ชื่อบทความ..." class="field"
+                oninput="B.updPass('title',this.value)">
+              <textarea id="passBody" placeholder="เนื้อหาบทความ..." class="field textarea-tall"
+                oninput="B.updPass('content',this.value)"></textarea>
+              <div class="range-row">
+                <i class="fas fa-link" style="color:var(--text-muted)"></i>
+                <span>ใช้กับข้อที่</span>
+                <input id="passFrom" type="number" min="1" class="num-input" oninput="B.updPass('fromQ',+this.value)">
+                <span>ถึงข้อที่</span>
+                <input id="passTo" type="number" min="1" class="num-input" oninput="B.updPass('toQ',+this.value)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Section 2: โจทย์ ── -->
+        <div class="section-card">
+          <div class="sec-head">
+            <div class="sec-num">2</div>
+            <span class="sec-title">โจทย์</span>
+            <span class="sec-desc" id="s2TypeLabel"></span>
+          </div>
+          <div class="sec-body">
+            <div class="type-row" id="typeRow"></div>
+            <textarea id="qText" placeholder="พิมพ์โจทย์ที่นี่..." class="field textarea-q"
+              oninput="B.updQ('text',this.value)"></textarea>
+          </div>
+        </div>
+
+        <!-- ── Section 3: คำตอบ ── -->
+        <div class="section-card">
+          <div class="sec-head">
+            <div class="sec-num">3</div>
+            <span class="sec-title">คำตอบ</span>
+            <span class="sec-desc" id="s3Hint"></span>
+          </div>
+          <div class="sec-body" id="ansBody"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Export modal -->
+  <div class="overlay" id="exportModal" hidden onclick="B.closeModalBg(event)">
+    <div class="modal">
+      <div class="modal-head">
+        <span>Export JSON</span>
+        <div class="flex-gap"></div>
+        <button class="btn-icon" onclick="B.copyJSON()"><i class="fas fa-copy"></i> คัดลอก</button>
+        <button class="btn-icon" onclick="B.closeExport()"><i class="fas fa-times"></i></button>
+      </div>
+      <pre id="exportPre" class="json-out"></pre>
+    </div>
+  </div>
+
+  <script src="builder.js"></script>
+</body>
+
+</html>

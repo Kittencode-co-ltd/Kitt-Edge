@@ -2,40 +2,31 @@
     <div class="page-header">
         <h2>📊 ผลการเรียน</h2>
     </div>
-    <div class="progress-content">
-        <!-- Summary Cards -->
-        <div class="progress-summary-grid" id="progressSummary">
-            <!-- Dynamic Content -->
-        </div>
 
-        <!-- Chart -->
-        <div class="chart-card">
-            <h3>พัฒนาการ (คะแนนเฉลี่ย %)</h3>
-            <canvas id="progressChart"></canvas>
-        </div>
+    <!-- Summary Strip -->
+    <div class="dev-summary-strip" id="devSummary">
+        <!-- Dynamic -->
+    </div>
 
-        <!-- Subject Mastery -->
-        <div class="chart-card">
-            <h3>ความชำนาญรายวิชา</h3>
-            <div class="mastery-list" id="progressMastery">
-                <!-- Dynamic Content -->
+    <!-- Chart: before/after per chapter -->
+    <div class="chart-card dev-chart-card">
+        <div class="dev-chart-header">
+            <h3>ภาพรวมพัฒนาการ</h3>
+            <div class="dev-legend">
+                <span class="legend-dot pre"></span><span>ก่อนเรียน</span>
+                <span class="legend-dot post"></span><span>หลังเรียน</span>
             </div>
         </div>
-
-        <!-- Strengths and Weaknesses -->
-        <div class="insights-container">
-            <div class="insight-card pattern-success">
-                <h3>✨ จุดแข็งของคุณ</h3>
-                <div class="insight-list" id="progressStrengths">
-                    <!-- Dynamic Content -->
-                </div>
-            </div>
-            <div class="insight-card pattern-warning">
-                <h3>🎯 จุดที่ควรพัฒนา</h3>
-                <div class="insight-list" id="progressWeaknesses">
-                    <!-- Dynamic Content -->
-                </div>
-            </div>
+        <div style="position:relative; height:180px;">
+            <canvas id="devChart"></canvas>
         </div>
     </div>
+
+    <!-- Chapter cards -->
+    <div class="dev-section-label">พัฒนาการรายบท</div>
+    <div class="dev-chapter-list" id="devChapterList">
+        <!-- Dynamic -->
+    </div>
+
+    <div style="height:80px"></div>
 </div>
