@@ -36,7 +36,7 @@
   --safe-area-top: env(safe-area-inset-top);
   --safe-area-bottom: env(safe-area-inset-bottom);
   --header-height: 100px;
-  --bottom-nav-height: 70px;
+  --bottom-nav-height: 82px;
 
   /* Border Radius */
   --radius-sm: 8px;
@@ -4452,7 +4452,7 @@ body {
 
 /* ── Bottom Nav: pill indicator under active icon ──────────── */
 .bottom-nav {
-  padding: 6px 0 calc(6px + var(--safe-area-bottom));
+  padding: 10px 0 calc(10px + var(--safe-area-bottom));
   background: #fff;
   border-top: 1px solid rgba(0,0,0,0.07);
   box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
@@ -4464,8 +4464,8 @@ body {
   position: relative;
 }
 
-.nav-item i { font-size: 20px; transition: color 0.2s, transform 0.2s; }
-.nav-item span { font-size: 10px; font-weight: 500; transition: color 0.2s; }
+.nav-item i { font-size: 23px; transition: color 0.2s, transform 0.2s; }
+.nav-item span { font-size: 12px; font-weight: 500; transition: color 0.2s; }
 
 .nav-item.active::after {
   content: '';
