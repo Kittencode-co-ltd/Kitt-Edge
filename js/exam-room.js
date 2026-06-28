@@ -503,6 +503,30 @@ const ExamRoom = {
         const elapsedS = elapsedSec % 60;
         const pct = scoreTotal > 0 ? Math.round((correct / scoreTotal) * 100) : 0;
 
+        // ── บันทึกผลสอบกลับ mockData.chapters ──
+        const exam = this.examData;
+        if (exam.chapterId && exam.examType && typeof mockData !== 'undefined') {
+            const chapter = mockData.chapters.find(c => c.id === exam.chapterId);
+            if (chapter) {
+                if (exam.examType === 'pre') {
+                    chapter.preScore = pct;
+                    if (chapter.status === 'not_started') chapter.status = 'in_progress';
+                    // ปลดล็อค post exam
+                    const postExam = mockData.mockExams.find(e => e.chapterId === exam.chapterId && e.examType === 'post');
+                    if (postExam && postExam.status === 'locked') postExam.status = 'not_started';
+                } else if (exam.examType === 'post') {
+                    chapter.postScore = pct;
+                    chapter.status = 'done';
+                    // อัพเดต pre exam status เป็น completed
+                    const preExam = mockData.mockExams.find(e => e.chapterId === exam.chapterId && e.examType === 'pre');
+                    if (preExam) preExam.status = 'completed';
+                }
+                // อัพเดต exam status ปัจจุบัน
+                const currentExam = mockData.mockExams.find(e => e.id === exam.id);
+                if (currentExam) currentExam.status = 'completed';
+            }
+        }
+
         this.showResults(correct, scoreTotal, pct, elapsedMin, elapsedS, openPending);
     },
 
@@ -590,6 +614,9 @@ const ExamRoom = {
         const openNote = openPending > 0
             ? `<div class="results-open-note"><i class="fas fa-hourglass-half"></i> มี ${openPending} ข้อที่ต้องรอครูตรวจ (ไม่นับในคะแนนนี้)</div>`
             : '';
+
+        // ── สร้าง Guidance Section แบบ context-aware ──
+        const guidanceHtml = this._buildGuidanceSection(pct);
 
         area.innerHTML = `
             <div class="results-screen">

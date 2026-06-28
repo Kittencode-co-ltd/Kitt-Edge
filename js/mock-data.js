@@ -66,40 +66,113 @@ const mockData = {
         }
     ],
     mockExams: [
+        // ── บทที่ 1: การฟัง ──
         {
-            id: "EX001",
-            name: "บทที่ 6: พิษณุโลกวิปโยค",
-            subject: "thai",
-            totalQuestions: 8,
-            duration: 30,
-            status: "not_started",
-            tag: "ก่อนเรียน"
+            id: "EX_C1_PRE", chapterId: "chapter1", examType: "pre",
+            name: "บทที่ 1: การฟัง", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "completed", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C1_POST"
         },
         {
-            id: "EX002",
-            name: "แบบทดสอบเรื่อง หลักภาษา",
-            subject: "thai",
-            totalQuestions: 20,
-            duration: 30,
-            status: "unavailable"
+            id: "EX_C1_POST", chapterId: "chapter1", examType: "post",
+            name: "บทที่ 1: การฟัง", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "completed", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C1_PRE"
+        },
+        // ── บทที่ 2: การพูด ──
+        {
+            id: "EX_C2_PRE", chapterId: "chapter2", examType: "pre",
+            name: "บทที่ 2: การพูด", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "completed", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C2_POST"
         },
         {
-            id: "EX003",
-            name: "บทที่ 1 ความเป็นมาของ จังหวัดพิษณุโลก",
-            subject: "history",
-            totalQuestions: 10,
-            duration: 30,
-            status: "unavailable"
+            id: "EX_C2_POST", chapterId: "chapter2", examType: "post",
+            name: "บทที่ 2: การพูด", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "completed", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C2_PRE"
+        },
+        // ── บทที่ 3: การอ่าน ──
+        {
+            id: "EX_C3_PRE", chapterId: "chapter3", examType: "pre",
+            name: "บทที่ 3: การอ่าน", subject: "thai",
+            totalQuestions: 8, duration: 30,
+            status: "completed", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C3_POST"
         },
         {
-            id: "EX004",
-            name: "ข้อสอบ A-Level ภาษาไทย",
-            subject: "thai",
-            totalQuestions: 50,
-            duration: 90,
-            status: "unavailable"
+            id: "EX_C3_POST", chapterId: "chapter3", examType: "post",
+            name: "บทที่ 3: การอ่าน", subject: "thai",
+            totalQuestions: 8, duration: 30,
+            status: "not_started", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C3_PRE"
+        },
+        // ── บทที่ 4: การเขียน ──
+        {
+            id: "EX_C4_PRE", chapterId: "chapter4", examType: "pre",
+            name: "บทที่ 4: การเขียน", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "completed", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C4_POST"
+        },
+        {
+            id: "EX_C4_POST", chapterId: "chapter4", examType: "post",
+            name: "บทที่ 4: การเขียน", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "not_started", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C4_PRE"
+        },
+        // ── บทที่ 5: วรรณคดี ──
+        {
+            id: "EX_C5_PRE", chapterId: "chapter5", examType: "pre",
+            name: "บทที่ 5: วรรณคดี", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "not_started", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C5_POST"
+        },
+        {
+            id: "EX_C5_POST", chapterId: "chapter5", examType: "post",
+            name: "บทที่ 5: วรรณคดี", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "locked", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C5_PRE"
+        },
+        // ── บทที่ 6: พิษณุโลกวิปโยค ──
+        {
+            id: "EX_C6_PRE", chapterId: "chapter6", examType: "pre",
+            name: "บทที่ 6: พิษณุโลกวิปโยค", subject: "thai",
+            totalQuestions: 8, duration: 30,
+            status: "not_started", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C6_POST"
+        },
+        {
+            id: "EX_C6_POST", chapterId: "chapter6", examType: "post",
+            name: "บทที่ 6: พิษณุโลกวิปโยค", subject: "thai",
+            totalQuestions: 8, duration: 30,
+            status: "locked", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C6_PRE"
+        },
+        // ── บทที่ 7: การแต่งคำประพันธ์ ──
+        {
+            id: "EX_C7_PRE", chapterId: "chapter7", examType: "pre",
+            name: "บทที่ 7: การแต่งคำประพันธ์", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "not_started", tag: "ก่อนเรียน",
+            linkedPostExamId: "EX_C7_POST"
+        },
+        {
+            id: "EX_C7_POST", chapterId: "chapter7", examType: "post",
+            name: "บทที่ 7: การแต่งคำประพันธ์", subject: "thai",
+            totalQuestions: 10, duration: 30,
+            status: "locked", tag: "หลังเรียน",
+            linkedPreExamId: "EX_C7_PRE"
         }
     ],
+
     activities: [
         {
             type: "quiz",

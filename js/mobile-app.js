@@ -491,7 +491,7 @@ const MobileApp = {
                         {
                             label: 'หลังเรียน',
                             data: postData,
-                            backgroundColor: 'rgba(30,58,138,0.85)',
+                            backgroundColor: 'rgba(219,39,119,0.85)',
                             borderRadius: 4,
                             borderSkipped: false,
                         }
