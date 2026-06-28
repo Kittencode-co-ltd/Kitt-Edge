@@ -61,7 +61,7 @@ html {
 
 body {
   font-family:
-    "Sarabun",
+    "Noto Sans Thai",
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
@@ -850,6 +850,191 @@ body {
 
 .btn-start:active {
   opacity: 0.85;
+}
+
+/* ── Exam Chapter Card (สนามสอบ: ก่อนเรียน/หลังเรียน ต่อบท) ── */
+.exam-chapter-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.exam-chapter-card.is-locked {
+  opacity: 0.65;
+}
+
+.exam-chapter-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.exam-chapter-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.exam-chapter-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exam-chapter-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.exam-open-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.exam-pill-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.exam-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.exam-pill:disabled {
+  cursor: not-allowed;
+}
+
+.exam-pill-tag {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.exam-pill-status {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.exam-pill.pill-available {
+  border-color: var(--primary);
+  background: var(--primary)10;
+}
+.exam-pill.pill-available .exam-pill-status { color: var(--primary); }
+
+.exam-pill.pill-completed .exam-pill-status { color: #22c55e; }
+
+.exam-pill.pill-locked .exam-pill-status { color: #9ca3af; }
+
+.exam-chapter-hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Exam Admin (design-only stub) ── */
+.exam-admin-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fef9c3;
+  color: #854d0e;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+}
+
+.exam-admin-notice i { margin-top: 2px; }
+
+.exam-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.exam-admin-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.exam-admin-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.exam-admin-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.exam-admin-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.admin-pill.status-available { background: #d1fae5; color: #065f46; }
+.admin-pill.status-completed { background: #dbeafe; color: #1e40af; }
+.admin-pill.status-locked    { background: #f3f4f6; color: #9ca3af; }
+
+.exam-admin-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
 }
 
 /* ── Adaptive Exam Banner ── */
@@ -2189,7 +2374,7 @@ body {
   border: 2px solid var(--border-color);
   border-radius: var(--radius-lg);
   font-size: 15px;
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   color: var(--text-primary);
   text-align: left;
   cursor: pointer;
@@ -2234,7 +2419,7 @@ body {
   border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
   font-size: 16px;
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -2310,7 +2495,7 @@ body {
   background: white;
   color: var(--primary);
   border-radius: var(--radius-md);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -2338,7 +2523,7 @@ body {
   background: #22c55e;
   color: white;
   border-radius: var(--radius-md);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -2465,7 +2650,7 @@ body {
   color: white;
   border: none;
   border-radius: var(--radius-md);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -2609,7 +2794,7 @@ body {
   font-size: 14px;
   line-height: 1.85;
   color: var(--text-primary);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
 }
 
 /* Clickable blank numbers in passages */
@@ -2641,7 +2826,7 @@ body {
   color: white;
   border: none;
   border-radius: var(--radius-lg);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -2684,7 +2869,7 @@ body {
   border: none;
   padding: 9px 14px;
   border-radius: var(--radius-full);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -2744,7 +2929,7 @@ body {
   background: #f8fafc;
   border: 2px solid #e2e8f0;
   border-radius: var(--radius-md);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 14px;
   color: var(--text-primary);
   text-align: left;
@@ -2797,7 +2982,7 @@ body {
   color: white;
   border: none;
   border-radius: var(--radius-lg);
-  font-family: "Sarabun", sans-serif;
+  font-family: "Noto Sans Thai", sans-serif;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -4915,7 +5100,7 @@ body {
   border: none;
   outline: none;
   background: transparent;
-  font-family: var(--font-family, 'Sarabun', sans-serif);
+  font-family: var(--font-family, 'Noto Sans Thai', sans-serif);
   font-size: 15px;
   color: var(--text-primary);
   padding: 14px 8px 14px 0;
@@ -4954,7 +5139,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 14px;
-  font-family: var(--font-family, 'Sarabun', sans-serif);
+  font-family: var(--font-family, 'Noto Sans Thai', sans-serif);
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
@@ -5068,6 +5253,15 @@ body {
 }
 .legend-dot.pre  { background: rgba(148,163,184,0.8); }
 .legend-dot.post { background: rgba(219, 39, 119, 0.85); }
+.legend-dot.actual    { background: rgba(99,102,241,0.9); }
+.legend-dot.predicted { background: rgba(244,114,182,0.9); border-radius: 50%; }
+
+.predict-hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
 
 /* Section label */
 .dev-section-label {

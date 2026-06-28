@@ -269,6 +269,8 @@ const ExamRoom = {
             const ans = this.answers[i];
             const isAnswered = q.type === 'truefalse'
                 ? (ans && Object.keys(ans).length > 0)
+                : q.type === 'multi'
+                ? (Array.isArray(ans) && ans.length > 0)
                 : ans !== undefined;
             if (isAnswered) dot.classList.add('answered');
         });
@@ -285,14 +287,27 @@ const ExamRoom = {
 
         // Build question HTML
         let optionsHtml = '';
-        const TYPE_LABELS = { choice: 'เลือกตอบ', fill: 'เติมคำตอบ', truefalse: 'ใช่ / ไม่ใช่', 'fill-open': 'เขียนตอบ' };
-        const typeBadgeClass = { choice: 'choice', fill: 'fill', truefalse: 'truefalse', 'fill-open': 'open' };
+        const TYPE_LABELS = { choice: 'เลือกตอบ', multi: 'เลือกหลายข้อ', fill: 'เติมคำตอบ', truefalse: 'ใช่ / ไม่ใช่', 'fill-open': 'เขียนตอบ' };
+        const typeBadgeClass = { choice: 'choice', multi: 'choice', fill: 'fill', truefalse: 'truefalse', 'fill-open': 'open' };
 
         if (q.type === 'choice') {
             optionsHtml = `<div class="choice-list">` +
                 q.choices.map((c, ci) => {
                     const sel = this.answers[this.currentQ] === ci ? 'selected' : '';
                     return `<button class="choice-btn ${sel}" onclick="ExamRoom.selectChoice(${ci})">${ci + 1}. ${c}</button>`;
+                }).join('') +
+                `</div>`;
+
+        } else if (q.type === 'multi') {
+            const selected = Array.isArray(this.answers[this.currentQ]) ? this.answers[this.currentQ] : [];
+            optionsHtml = `
+                <div class="tf-progress-hint">เลือกได้มากกว่า 1 ข้อ</div>
+                <div class="choice-list">` +
+                q.choices.map((c, ci) => {
+                    const sel = selected.includes(ci) ? 'selected' : '';
+                    return `<button class="choice-btn ${sel}" onclick="ExamRoom.selectMultiChoice(${ci})">
+                        <i class="fas ${sel ? 'fa-check-square' : 'fa-square'}"></i> ${ci + 1}. ${c}
+                    </button>`;
                 }).join('') +
                 `</div>`;
 
@@ -374,6 +389,16 @@ const ExamRoom = {
     // Select a choice answer
     selectChoice(choiceIndex) {
         this.answers[this.currentQ] = choiceIndex;
+        this.renderQuestion();
+    },
+
+    // Toggle a choice for a multi-answer question
+    selectMultiChoice(choiceIndex) {
+        const current = Array.isArray(this.answers[this.currentQ]) ? this.answers[this.currentQ] : [];
+        const idx = current.indexOf(choiceIndex);
+        if (idx === -1) current.push(choiceIndex); else current.splice(idx, 1);
+        if (current.length > 0) this.answers[this.currentQ] = current;
+        else delete this.answers[this.currentQ];
         this.renderQuestion();
     },
 
@@ -485,6 +510,12 @@ const ExamRoom = {
             if (q.type === 'choice') {
                 scoreTotal++;
                 if (userAns === q.answer) correct++;
+            } else if (q.type === 'multi') {
+                scoreTotal++;
+                const given = Array.isArray(userAns) ? [...userAns].sort() : [];
+                const expected = [...q.answer].sort();
+                const isMatch = given.length === expected.length && given.every((v, i) => v === expected[i]);
+                if (isMatch) correct++;
             } else if (q.type === 'fill') {
                 scoreTotal++;
                 if (userAns !== undefined && String(userAns).trim() === String(q.answer).trim()) correct++;
@@ -545,6 +576,22 @@ const ExamRoom = {
                 const isCorrect = userAns === q.answer;
                 const userLabel = userAns !== undefined ? `${userAns + 1}. ${q.choices[userAns]}` : '— ไม่ได้ตอบ —';
                 const correctLabel = `${q.answer + 1}. ${q.choices[q.answer]}`;
+                return `<div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
+                    <div class="review-q-header">
+                        <span class="review-q-no">ข้อ ${i + 1}</span>
+                        <span class="review-status">${isCorrect ? '✓ ถูก' : '✗ ผิด'}</span>
+                    </div>
+                    <div class="review-q-text">${q.text.substring(0, 80)}${q.text.length > 80 ? '...' : ''}</div>
+                    <div class="review-ans">คุณตอบ: <strong>${userLabel}</strong></div>
+                    ${!isCorrect ? `<div class="review-correct">เฉลย: <strong>${correctLabel}</strong></div>` : ''}
+                </div>`;
+
+            } else if (q.type === 'multi') {
+                const given = Array.isArray(userAns) ? [...userAns].sort() : [];
+                const expected = [...q.answer].sort();
+                const isCorrect = given.length === expected.length && given.every((v, idx) => v === expected[idx]);
+                const userLabel = given.length ? given.map(ci => `${ci + 1}. ${q.choices[ci]}`).join(', ') : '— ไม่ได้ตอบ —';
+                const correctLabel = expected.map(ci => `${ci + 1}. ${q.choices[ci]}`).join(', ');
                 return `<div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
                     <div class="review-q-header">
                         <span class="review-q-no">ข้อ ${i + 1}</span>

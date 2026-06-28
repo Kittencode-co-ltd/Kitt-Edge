@@ -67,7 +67,7 @@ const MobileApp = {
             }
             
             // Show/hide bottom nav and header for full screen pages
-            const isFullScreen = ['exam-room', 'camera', 'scan-result', 'subscription', 'splash', 'auth', 'profile-setup', 'notifications', 'payment'].includes(pageName);
+            const isFullScreen = ['exam-room', 'camera', 'scan-result', 'subscription', 'splash', 'auth', 'profile-setup', 'notifications', 'payment', 'exam-admin'].includes(pageName);
             const bottomNav = document.querySelector('.bottom-nav');
             const header = document.querySelector('.mobile-header');
             const fab = document.getElementById('fab');
@@ -88,6 +88,7 @@ const MobileApp = {
             if (pageName === 'progress') this.renderProgress();
             if (pageName === 'profile') this.renderProfile();
             if (pageName === 'profile-setup') this.renderProfileSetup();
+            if (pageName === 'exam-admin') this.renderExamAdmin();
             if (pageName === 'subscription') {
                 if (typeof SubscriptionApp !== 'undefined') {
                     SubscriptionApp.init();
@@ -402,35 +403,63 @@ const MobileApp = {
         }, 1500);
     },
 
-    // Render Exams
-    // Render Exams
+    // Render Exams — grouped by chapter, each with a ก่อนเรียน/หลังเรียน pair
     renderExams() {
         const container = document.getElementById('examList');
         if (!container) return;
-        
-        const exams = mockData.mockExams;
-        
-        container.innerHTML = exams.map(exam => {
-            const isUnavailable = exam.status === 'unavailable';
-            const badgeText = exam.status === 'completed' ? 'ทำแล้ว' : (isUnavailable ? 'ยังไม่พร้อมใช้งาน' : 'เริ่มทำ');
-            const btnText = exam.status === 'completed' ? 'ดูผลลัพธ์' : (isUnavailable ? 'ยังไม่พร้อมใช้งาน' : 'เริ่มทำข้อสอบ');
-            
+
+        const chapters = mockData.chapters || [];
+        const exams = mockData.mockExams || [];
+
+        const PILL_LABEL = {
+            available: 'เริ่มทำ',
+            completed: 'ทำแล้ว',
+            locked: 'ยังไม่เปิด',
+            not_started: 'รอก่อนเรียน'
+        };
+        const PILL_CLASS = {
+            available: 'pill-available',
+            completed: 'pill-completed',
+            locked: 'pill-locked',
+            not_started: 'pill-locked'
+        };
+
+        container.innerHTML = chapters.map(ch => {
+            const pre = exams.find(e => e.chapterId === ch.id && e.examType === 'pre');
+            const post = exams.find(e => e.chapterId === ch.id && e.examType === 'post');
+            const isOpenChapter = [pre, post].some(e => e && e.status === 'available');
+            const chapterLocked = !isOpenChapter && [pre, post].every(e => !e || e.status === 'locked');
+
+            const pillHtml = (exam, label) => {
+                if (!exam) return '';
+                const clickable = exam.status === 'available' || exam.status === 'completed';
+                const cls = PILL_CLASS[exam.status] || 'pill-locked';
+                return `
+                    <button class="exam-pill ${cls}" ${clickable ? `onclick="MobileApp.startExam('${exam.id}')"` : 'disabled'}>
+                        <span class="exam-pill-tag">${label}</span>
+                        <span class="exam-pill-status">
+                            <i class="fas ${exam.status === 'completed' ? 'fa-check-circle' : exam.status === 'available' ? 'fa-play-circle' : 'fa-lock'}"></i>
+                            ${PILL_LABEL[exam.status] || 'ยังไม่เปิด'}
+                        </span>
+                    </button>`;
+            };
+
             return `
-                <div class="exam-card ${isUnavailable ? 'unavailable' : ''}" ${isUnavailable ? 'style="opacity: 0.6; filter: grayscale(100%);"' : ''}>
-                    <div class="exam-header">
-                        <div>
-                            <div class="exam-title" ${isUnavailable ? 'style="color: var(--text-secondary);"' : ''}>${exam.name}</div>
-                            <div class="exam-subject">${exam.subject.toUpperCase()}</div>
+                <div class="exam-chapter-card ${chapterLocked ? 'is-locked' : ''}">
+                    <div class="exam-chapter-top">
+                        <div class="exam-chapter-icon" style="background:${ch.color}18; color:${ch.color}">
+                            <i class="fas ${ch.icon}"></i>
                         </div>
-                        <span class="exam-badge ${exam.status}" ${isUnavailable ? 'style="background: #f3f4f6; color: #9ca3af;"' : ''}>${badgeText}</span>
+                        <div class="exam-chapter-title">
+                            <span class="exam-chapter-name">${ch.nameTH}</span>
+                            ${isOpenChapter ? '<span class="exam-open-badge"><i class="fas fa-bolt"></i> เปิดให้ทำตอนนี้</span>' : ''}
+                        </div>
                     </div>
-                    <div class="exam-meta">
-                        <span><i class="fas fa-question-circle"></i> ${exam.totalQuestions} ข้อ</span>
-                        <span><i class="far fa-clock"></i> ${exam.duration} นาที</span>
+                    <div class="exam-pill-row">
+                        ${pillHtml(pre, 'ก่อนเรียน')}
+                        ${pillHtml(post, 'หลังเรียน')}
                     </div>
-                    <button class="btn-start" ${isUnavailable ? 'style="background: #f3f4f6; color: #9ca3af;"' : `onclick="MobileApp.startExam('${exam.id}')"`}>
-                        ${btnText}
-                    </button>
+                    ${chapterLocked ? '<div class="exam-chapter-hint"><i class="fas fa-hourglass-half"></i> บทนี้จะเปิดให้ทำเร็ว ๆ นี้</div>' : ''}
                 </div>
             `;
         }).join('');
@@ -516,6 +545,72 @@ const MobileApp = {
                     }
                 }
             });
+        }
+
+        // ── 2b. Chart: predicted score trend (weeks) ───────────
+        const predictCtx = document.getElementById('predictChart');
+        const progress = mockData.progress;
+        if (predictCtx && progress) {
+            const existingPredict = Chart.getChart('predictChart');
+            if (existingPredict) existingPredict.destroy();
+
+            const weekLabels = progress.weeks.map(w => `สัปดาห์ ${w}`);
+
+            new Chart(predictCtx, {
+                type: 'line',
+                data: {
+                    labels: weekLabels,
+                    datasets: [
+                        {
+                            label: 'คะแนนจริง',
+                            data: progress.scores,
+                            borderColor: 'rgba(99,102,241,0.9)',
+                            backgroundColor: 'rgba(99,102,241,0.15)',
+                            tension: 0.35,
+                            fill: true,
+                            spanGaps: false,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'คาดคะเน',
+                            data: progress.predictedScores,
+                            borderColor: 'rgba(244,114,182,0.9)',
+                            borderDash: [6, 4],
+                            backgroundColor: 'transparent',
+                            tension: 0.35,
+                            spanGaps: true,
+                            pointRadius: 4,
+                            pointStyle: 'circle'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ctx.raw !== null ? `${ctx.dataset.label}: ${ctx.raw}%` : 'ยังไม่มีข้อมูล'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { beginAtZero: true, max: 100,
+                             ticks: { callback: v => v + '%', font: { size: 10 } },
+                             grid: { color: 'rgba(0,0,0,0.05)' } }
+                    }
+                }
+            });
+
+            const hintEl = document.getElementById('predictHint');
+            if (hintEl) {
+                const lastPredicted = [...progress.predictedScores].reverse().find(v => v !== null);
+                hintEl.textContent = lastPredicted
+                    ? `แนวโน้ม: คาดว่าคะแนนของคุณจะไปถึง ${lastPredicted}% หากเรียนต่อในจังหวะนี้`
+                    : '';
+            }
         }
 
         // ── 3. Chapter development cards ──────────────────────
@@ -781,24 +876,22 @@ const MobileApp = {
 
     // Start Exam
     async startExam(examId) {
-        // Load the exam-room page
-        await this.navigate('exam-room');
-
-        // Find the exam data
-        let examDataObj = null;
-        if (examId === 'EX001') {
-            examDataObj = phitsanulokHistoryExamData;
-        } else if (examId === 'EX002') {
-            examDataObj = thaiGrammarExamData;
-        } else if (examId === 'EX003') {
-            examDataObj = phitsanulokReadingPreTestData;
+        const exam = mockData.mockExams.find(e => e.id === examId);
+        if (exam && exam.status === 'locked') {
+            Utils.showToast('บทนี้ยังไม่เปิดให้ทำ เปิดเฉพาะบทที่ 6 ในขณะนี้', 'info');
+            return;
         }
+
+        // Look up the full exam content by ID (see js/exam-data.js)
+        const examDataObj = (typeof examDataRegistry !== 'undefined') ? examDataRegistry[examId] : null;
 
         if (!examDataObj) {
             Utils.showToast('ยังไม่มีข้อมูลข้อสอบนี้', 'error');
             return;
         }
 
+        // Load the exam-room page
+        await this.navigate('exam-room');
         ExamRoom.init(examDataObj);
     },
 
@@ -836,6 +929,41 @@ const MobileApp = {
             tierBadge.className = `profile-tier ${tier.cls}`;
             tierBadge.innerHTML = tier.icon ? `<span>${tier.icon}</span> ${tier.label}` : tier.label;
         }
+    },
+
+    // Render Exam Admin (design-only stub for future exam management)
+    renderExamAdmin() {
+        const container = document.getElementById('examAdminList');
+        if (!container) return;
+
+        const chapters = mockData.chapters || [];
+        const exams = mockData.mockExams || [];
+        const STATUS_LABEL = { available: 'เปิดให้ทำ', completed: 'มีข้อสอบแล้ว', locked: 'ยังไม่เปิด' };
+
+        container.innerHTML = chapters.map(ch => {
+            const pre = exams.find(e => e.chapterId === ch.id && e.examType === 'pre');
+            const post = exams.find(e => e.chapterId === ch.id && e.examType === 'post');
+            const pill = (exam, label) => exam
+                ? `<span class="admin-pill status-${exam.status}">${label}: ${STATUS_LABEL[exam.status] || exam.status}</span>`
+                : `<span class="admin-pill status-locked">${label}: ไม่มีข้อสอบ</span>`;
+
+            return `
+                <div class="exam-admin-card">
+                    <div class="exam-admin-card-top">
+                        <div class="exam-chapter-icon" style="background:${ch.color}18; color:${ch.color}">
+                            <i class="fas ${ch.icon}"></i>
+                        </div>
+                        <span class="exam-admin-name">${ch.nameTH}</span>
+                        <button class="icon-btn" title="แก้ไขข้อสอบ" onclick="window.open('exam-builder/index.html','_blank')">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
+                    <div class="exam-admin-pills">
+                        ${pill(pre, 'ก่อนเรียน')}
+                        ${pill(post, 'หลังเรียน')}
+                    </div>
+                </div>`;
+        }).join('');
     },
 
     // Render Profile Setup

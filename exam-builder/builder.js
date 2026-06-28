@@ -29,7 +29,7 @@ const B = {
   // ── Exam metadata ──────────────────────────────────────────
   setMeta(k, v) {
     this.exam[k] = v;
-    if (k === 'title') document.title = (v || 'Exam Builder') + ' — Kitt-Edge';
+    if (k === 'title') document.title = (v || 'เครื่องมือสร้างข้อสอบ') + ' — ครูริสา สอนภาษาไทย';
   },
 
   // ── Question CRUD ──────────────────────────────────────────

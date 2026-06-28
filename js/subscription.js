@@ -3,14 +3,14 @@ const SubscriptionApp = {
     plans: [
     {
         id: 'free',
-        name: 'Free (Standard)',
+        name: 'ฟรี (มาตรฐาน)',
         description: 'เริ่มต้นฝึกฝนและทดลองระบบ AI เบื้องต้น',
         priceMonthly: 0,
         priceYearly: 0,
         features: [
             { text: 'คลังข้อสอบเก่า พร้อมเฉลยละเอียด', active: true },
             { text: 'สแกนโจทย์จำกัด 3 ครั้ง/เดือน', active: true },
-            { text: 'โหมด Adaptive จำกัด 1 ครั้ง/สัปดาห์', active: true },
+            { text: 'โหมดปรับระดับอัตโนมัติ จำกัด 1 ครั้ง/สัปดาห์', active: true },
             { text: 'วิดีโอเฉลยจากติวเตอร์ผู้เชี่ยวชาญ', active: false },
             { text: 'วิเคราะห์โอกาสสอบติดคณะในฝัน', active: false },
             { text: 'ตารางเรียนและระบบแจ้งเตือนอัจฉริยะ', active: false },
@@ -20,15 +20,15 @@ const SubscriptionApp = {
     },
     {
         id: 'exam-plus',
-        name: 'Exam Plus (Starter)',
+        name: 'เอ็กแซมพลัส (เริ่มต้น)',
         description: 'สแกนไม่จำกัด เพื่อการทำบ้านและทบทวนบทเรียน',
         priceMonthly: 99,
         priceYearly: 790,   
         features: [
-            { text: 'ทุกอย่างที่อยู่ในแผน Free', active: true },
+            { text: 'ทุกอย่างที่อยู่ในแผนฟรี', active: true },
             { text: 'สแกนโจทย์และดูเฉลยได้ไม่จำกัด', active: true },
             { text: 'เข้าถึงวิดีโอเฉลยข้อสอบทุกวิชา', active: true },
-            { text: 'โหมด Adaptive ฝึกฝนได้ไม่จำกัดครั้ง', active: true },
+            { text: 'โหมดปรับระดับอัตโนมัติ ฝึกฝนได้ไม่จำกัดครั้ง', active: true },
             { text: 'วิเคราะห์โอกาสสอบติดคณะในฝัน', active: false },
             { text: 'ตารางเรียนและระบบแจ้งเตือนอัจฉริยะ', active: false },
             { text: 'AI วิเคราะห์จุดอ่อนรายบุคคลเชิงลึก', active: false }
@@ -37,31 +37,31 @@ const SubscriptionApp = {
     },
     {
         id: 'adaptive-pro',
-        name: 'Adaptive Pro (Advanced)',
+        name: 'อแดปทีฟโปร (ขั้นสูง)',
         description: 'แผนยอดนิยมสำหรับนักเรียนที่เตรียมสอบจริงจัง',
         priceMonthly: 199,
         priceYearly: 1590,
         features: [
-            { text: 'ทุกอย่างที่อยู่ในแผน Exam Plus', active: true },
-            { text: 'วิเคราะห์โอกาสสอบติด (TCAS Prediction)', active: true },
+            { text: 'ทุกอย่างที่อยู่ในแผนเอ็กแซมพลัส', active: true },
+            { text: 'วิเคราะห์โอกาสสอบติด (พยากรณ์ TCAS)', active: true },
             { text: 'แนะนำคณะและวิชาที่ควรสอบตามเป้าหมาย', active: true },
             { text: 'โหมดจำลองสนามสอบจริงพร้อมจับเวลา', active: true },
             { text: 'ตารางเรียนอัจฉริยะ ปรับตามวันสอบจริง', active: false },
             { text: 'แนะนำข้อสอบรายบุคคลเพื่อปิดจุดบอด', active: false },
-            { text: 'วิเคราะห์จุดอ่อนรายบุคคลเชิงลึก (MRI Scan)', active: false }
+            { text: 'วิเคราะห์จุดอ่อนรายบุคคลเชิงลึก (สแกน MRI)', active: false }
         ],
         popular: true
     },
     {
         id: 'analyst-elite',
-        name: 'Analyst Elite (Ultimate)',
+        name: 'อนาลิสต์อีลิท (สูงสุด)',
         description: 'มี AI เป็นโค้ชส่วนตัว วางกลยุทธ์เพื่อความสำเร็จ',
         priceMonthly: 599,
         priceYearly: 5500,
         features: [
-            { text: 'ทุกอย่างที่อยู่ในแผน Adaptive Pro', active: true },
-            { text: 'AI วิเคราะห์จุดอ่อนเชิงลึก (Deep Diagnostic)', active: true },
-            { text: 'แนะนำข้อสอบรายบุคคล (Personalized Suggestion)', active: true },
+            { text: 'ทุกอย่างที่อยู่ในแผนอแดปทีฟโปร', active: true },
+            { text: 'AI วิเคราะห์จุดอ่อนเชิงลึก (วิเคราะห์เชิงลึก)', active: true },
+            { text: 'แนะนำข้อสอบรายบุคคล (คำแนะนำรายบุคคล)', active: true },
             { text: 'ตารางเรียนอัจฉริยะพร้อมระบบแจ้งเตือน', active: true }
         ],
         popular: false,

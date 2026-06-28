@@ -1,0 +1,39 @@
+<div class="page" id="examAdminPage" style="background: var(--bg-secondary); overflow-y: auto; height: 100%;">
+    <!-- Header with Gradient -->
+    <div
+        style="background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: calc(20px + var(--safe-area-top)) 20px 40px; position: relative; color: white; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: var(--shadow-md);">
+        <button class="icon-btn" onclick="MobileApp.navigate('profile'); MobileApp.updateNavActive('profile')" style="position: absolute; top: calc(16px + var(--safe-area-top)); left: 16px; width: 36px; height: 36px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; border: none; outline: none; border-radius: 50%; color: white; cursor: pointer;">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div style="text-align: center; margin-top: 10px;">
+            <div
+                style="width: 72px; height: 72px; background: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <i class="fas fa-folder-open" style="font-size: 32px; color: var(--primary);"></i>
+            </div>
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">จัดการคลังข้อสอบ</h2>
+            <p style="font-size: 14px; opacity: 0.9;">สำหรับครู — เพิ่ม/แก้ไขข้อสอบรายบท (อยู่ระหว่างพัฒนา)</p>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div style="padding: 0 16px 40px; margin-top: -20px; position: relative; z-index: 10;">
+
+        <!-- Coming soon notice -->
+        <div class="exam-admin-notice">
+            <i class="fas fa-tools"></i>
+            <span>หน้านี้เป็นแบบร่างสำหรับการจัดการข้อสอบในอนาคต ปัจจุบันยังใช้เครื่องมือสร้างข้อสอบแยกต่างหาก</span>
+        </div>
+
+        <!-- Chapter list with exam coverage -->
+        <div class="exams-section-label"><span>ข้อสอบรายบท</span></div>
+        <div class="exam-admin-list" id="examAdminList">
+            <!-- Dynamic Content -->
+        </div>
+
+        <!-- Add new exam -->
+        <a class="exam-admin-add-btn" href="exam-builder/index.html" target="_blank" rel="noopener">
+            <i class="fas fa-plus-circle"></i>
+            <span>เพิ่มข้อสอบใหม่ด้วยเครื่องมือสร้างข้อสอบ</span>
+        </a>
+    </div>
+</div>

@@ -96,34 +96,34 @@ const mockData = {
             status: "completed", tag: "หลังเรียน",
             linkedPreExamId: "EX_C2_PRE"
         },
-        // ── บทที่ 3: การอ่าน ──
+        // ── บทที่ 3: การอ่าน (ปิดรับสมัครชั่วคราว) ──
         {
             id: "EX_C3_PRE", chapterId: "chapter3", examType: "pre",
             name: "บทที่ 3: การอ่าน", subject: "thai",
             totalQuestions: 8, duration: 30,
-            status: "completed", tag: "ก่อนเรียน",
+            status: "locked", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C3_POST"
         },
         {
             id: "EX_C3_POST", chapterId: "chapter3", examType: "post",
             name: "บทที่ 3: การอ่าน", subject: "thai",
             totalQuestions: 8, duration: 30,
-            status: "not_started", tag: "หลังเรียน",
+            status: "locked", tag: "หลังเรียน",
             linkedPreExamId: "EX_C3_PRE"
         },
-        // ── บทที่ 4: การเขียน ──
+        // ── บทที่ 4: การเขียน (ปิดรับสมัครชั่วคราว) ──
         {
             id: "EX_C4_PRE", chapterId: "chapter4", examType: "pre",
             name: "บทที่ 4: การเขียน", subject: "thai",
             totalQuestions: 10, duration: 30,
-            status: "completed", tag: "ก่อนเรียน",
+            status: "locked", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C4_POST"
         },
         {
             id: "EX_C4_POST", chapterId: "chapter4", examType: "post",
             name: "บทที่ 4: การเขียน", subject: "thai",
             totalQuestions: 10, duration: 30,
-            status: "not_started", tag: "หลังเรียน",
+            status: "locked", tag: "หลังเรียน",
             linkedPreExamId: "EX_C4_PRE"
         },
         // ── บทที่ 5: วรรณคดี ──
@@ -131,7 +131,7 @@ const mockData = {
             id: "EX_C5_PRE", chapterId: "chapter5", examType: "pre",
             name: "บทที่ 5: วรรณคดี", subject: "thai",
             totalQuestions: 10, duration: 30,
-            status: "not_started", tag: "ก่อนเรียน",
+            status: "locked", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C5_POST"
         },
         {
@@ -141,12 +141,12 @@ const mockData = {
             status: "locked", tag: "หลังเรียน",
             linkedPreExamId: "EX_C5_PRE"
         },
-        // ── บทที่ 6: พิษณุโลกวิปโยค ──
+        // ── บทที่ 6: พิษณุโลกวิปโยค — เปิดให้ทำเป็นบทเดียวในขณะนี้ ──
         {
             id: "EX_C6_PRE", chapterId: "chapter6", examType: "pre",
             name: "บทที่ 6: พิษณุโลกวิปโยค", subject: "thai",
             totalQuestions: 8, duration: 30,
-            status: "not_started", tag: "ก่อนเรียน",
+            status: "available", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C6_POST"
         },
         {
@@ -161,7 +161,7 @@ const mockData = {
             id: "EX_C7_PRE", chapterId: "chapter7", examType: "pre",
             name: "บทที่ 7: การแต่งคำประพันธ์", subject: "thai",
             totalQuestions: 10, duration: 30,
-            status: "not_started", tag: "ก่อนเรียน",
+            status: "locked", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C7_POST"
         },
         {
@@ -291,11 +291,11 @@ const mockData = {
     notifications: [
         {
             id: 'notif-1',
-            sender: 'Kitt-Edge Tutor',
+            sender: 'ติวเตอร์ครูริสา',
             senderAvatar: '<i class="fas fa-graduation-cap"></i>',
             isSystemIcon: true,
             avatarBg: '#4F46E5',
-            text: '<b>Kitt-Edge Tutor</b> เพิ่มวิดีโอเฉลยใหม่: "เทคนิคการฟังจับใจความ"',
+            text: '<b>ติวเตอร์ครูริสา</b> เพิ่มวิดีโอเฉลยใหม่: "เทคนิคการฟังจับใจความ"',
             time: '2 ชั่วโมงที่แล้ว',
             isRead: false,
             thumbnail: null
@@ -313,7 +313,7 @@ const mockData = {
         },
         {
             id: 'notif-3',
-            sender: 'Kitt-Edge Team',
+            sender: 'ทีมครูริสา',
             senderAvatar: '<i class="fas fa-bullhorn"></i>',
             isSystemIcon: true,
             avatarBg: '#F59E0B',

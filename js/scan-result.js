@@ -138,7 +138,7 @@ const ScanResult = {
     _runLoadingSequence() {
         const fill = document.getElementById('scanLoadingFill');
         const loadingMessages = [
-            'Kitt-Edge AI กำลังวิเคราะห์โจทย์...',
+            'AI ครูริสา กำลังวิเคราะห์โจทย์...',
             'ระบุหัวข้อและรูปแบบโจทย์...',
             'สร้างวิธีทำทีละขั้นตอน...',
             'เกือบเสร็จแล้ว...'
@@ -231,7 +231,7 @@ const ScanResult = {
     share() {
         if (navigator.share) {
             navigator.share({
-                title: 'Kitt-Edge – ผลการสแกนโจทย์',
+                title: 'ครูริสา – ผลการสแกนโจทย์',
                 text: `คำตอบ: ${this.currentResult?.answer || '—'}`,
             }).catch(() => {});
         } else {

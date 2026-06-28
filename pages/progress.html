@@ -22,6 +22,21 @@
         </div>
     </div>
 
+    <!-- Chart: predicted score trend -->
+    <div class="chart-card dev-chart-card">
+        <div class="dev-chart-header">
+            <h3>คาดคะเนคะแนนในอนาคต</h3>
+            <div class="dev-legend">
+                <span class="legend-dot actual"></span><span>คะแนนจริง</span>
+                <span class="legend-dot predicted"></span><span>คาดคะเน</span>
+            </div>
+        </div>
+        <div style="position:relative; height:180px;">
+            <canvas id="predictChart"></canvas>
+        </div>
+        <div class="predict-hint" id="predictHint"></div>
+    </div>
+
     <!-- Chapter cards -->
     <div class="dev-section-label">พัฒนาการรายบท</div>
     <div class="dev-chapter-list" id="devChapterList">
