@@ -3,7 +3,7 @@
    ============================================ */
 
 :root {
-  /* Colors */
+  /* Colors — pastel pink stays the hero color */
   --primary: #db2777;
   --primary-dark: #9d174d;
   --primary-light: #ec4899;
@@ -13,24 +13,32 @@
   --warning: #f59e0b;
   --danger: #ef4444;
 
-  /* Background */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f0f2f5;
-  --bg-card: #ffffff;
+  /* Old-manuscript gold accents */
+  --gold: #c9a227;
+  --gold-soft: #e3c77a;
+  --gold-faint: rgba(201, 162, 39, 0.12);
+
+  /* Background — aged-paper / old-textbook cream instead of cool gray */
+  --bg-primary: #fffaf0;
+  --bg-secondary: #f7efe0;
+  --bg-card: #fffbf5;
 
   /* Text */
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
+  --text-primary: #2b211a;
+  --text-secondary: #6b5d4f;
+  --text-muted: #a3937e;
 
   /* Borders */
-  --border-color: #e5e7eb;
+  --border-color: #e8dcc4;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  /* Fonts — one font, used everywhere (headings and body alike) */
+  --font-heading: "Noto Sans Thai", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Shadows — softer, warm-toned */
+  --shadow-sm: 0 1px 2px 0 rgba(80, 60, 30, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(80, 60, 30, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(80, 60, 30, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(80, 60, 30, 0.1);
 
   /* Spacing */
   --safe-area-top: env(safe-area-inset-top);
@@ -38,11 +46,11 @@
   --header-height: 100px;
   --bottom-nav-height: 82px;
 
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Border Radius — slightly less rounded, more "old textbook" than "modern app" */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
   --radius-full: 9999px;
 }
 
@@ -57,6 +65,12 @@
 html {
   font-size: 16px;
   overscroll-behavior: none;
+}
+
+/* All headings use the manuscript-style heading font consistently;
+   body copy stays on Noto Sans Thai for readability in dense Thai text. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 body {
@@ -140,6 +154,7 @@ body {
 }
 
 .header-left h1 {
+  font-family: var(--font-heading);
   font-size: 24px;
   font-weight: 700;
 }
@@ -771,8 +786,22 @@ body {
 }
 
 .page-header h2 {
+  font-family: var(--font-heading);
   font-size: 24px;
   font-weight: 700;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.page-header h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 36px;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--gold), var(--secondary));
 }
 
 /* Exam List */
@@ -858,6 +887,11 @@ body {
   border-radius: var(--radius-lg);
   padding: 16px;
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.exam-chapter-card:not(.is-locked) {
+  border-color: var(--gold-soft);
 }
 
 .exam-chapter-card.is-locked {
@@ -889,8 +923,9 @@ body {
 }
 
 .exam-chapter-name {
-  font-weight: 600;
-  font-size: 14px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .exam-open-badge {
@@ -1687,6 +1722,39 @@ body {
   border-bottom: none;
 }
 
+.menu-item.disabled {
+  opacity: 0.6;
+}
+
+.menu-item-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.profile-meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.profile-meta-info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
 .menu-item:active {
   background: var(--bg-primary);
 }
@@ -1818,7 +1886,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  background: white;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   flex-shrink: 0;
@@ -1959,7 +2027,7 @@ body {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg-card);
   border: none;
   cursor: pointer;
 }
@@ -2086,7 +2154,7 @@ body {
 }
 
 .question-card-exam {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   padding: 24px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Stronger shadow */
@@ -2370,7 +2438,7 @@ body {
 .choice-btn {
   width: 100%;
   padding: 16px 20px;
-  background: #ffffff;
+  background: var(--bg-card);
   border: 2px solid var(--border-color);
   border-radius: var(--radius-lg);
   font-size: 15px;
@@ -2431,7 +2499,7 @@ body {
 /* Exam Bottom Nav */
 .exam-bottom-nav {
   flex-shrink: 0;
-  background: white;
+  background: var(--bg-card);
   border-top: 1px solid var(--border-color);
   padding: 10px 12px calc(10px + var(--safe-area-bottom));
   display: flex;
@@ -2461,7 +2529,7 @@ body {
   height: 32px;
   border-radius: 8px;
   border: 2px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -2492,7 +2560,7 @@ body {
   flex: 1;
   padding: 12px;
   border: 2px solid var(--primary);
-  background: white;
+  background: var(--bg-card);
   color: var(--primary);
   border-radius: var(--radius-md);
   font-family: "Noto Sans Thai", sans-serif;
@@ -2540,7 +2608,7 @@ body {
 }
 
 .results-header {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   padding: 24px;
   text-align: center;
@@ -2587,7 +2655,7 @@ body {
 }
 
 .review-item {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-md);
   padding: 14px;
   border-left: 4px solid var(--border-color);
@@ -2681,7 +2749,7 @@ body {
   height: 34px;
   border-radius: 50%;
   border: 2px solid #cbd5e1;
-  background: white;
+  background: var(--bg-card);
   font-size: 13px;
   font-weight: 700;
   color: var(--text-secondary);
@@ -2760,7 +2828,7 @@ body {
 }
 
 .passage-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   padding: 20px;
   margin-bottom: 16px;
@@ -2894,7 +2962,7 @@ body {
 }
 
 .as-question-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   padding: 18px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
@@ -3098,7 +3166,7 @@ body {
 }
 
 .plan-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   padding: 24px;
   border: 2px solid transparent;
@@ -3215,7 +3283,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   border: 2px solid var(--primary);
-  background: white;
+  background: var(--bg-card);
   color: var(--primary);
 }
 
@@ -3290,7 +3358,7 @@ body {
    Splash Screen Styles
    ============================================ */
 #splashPage {
-  background: #ffffff;
+  background: var(--bg-card);
   display: flex !important;
   flex-direction: column;
   align-items: center;
@@ -3339,6 +3407,7 @@ body {
 }
 
 .splash-brand {
+  font-family: var(--font-heading);
   font-size: 36px;
   font-weight: 800;
   letter-spacing: 2px;
@@ -3386,7 +3455,7 @@ body {
    Auth (Login/Register) Styles
    ============================================ */
 #authPage {
-  background: white;
+  background: var(--bg-card);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -3509,7 +3578,7 @@ body {
 .form-input:focus {
   outline: none;
   border-color: var(--primary);
-  background: white;
+  background: var(--bg-card);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -3585,7 +3654,7 @@ body {
   height: 50px;
   border-radius: 50%;
   border: 1px solid var(--border-color);
-  background: #ffffff !important;
+  background: var(--bg-card) !important;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -3626,7 +3695,7 @@ body {
   height: 50px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-color);
-  background: #ffffff;
+  background: var(--bg-card);
   font-size: 15px;
   font-weight: 600;
   display: flex;
@@ -3690,7 +3759,7 @@ body {
 .splash-wrapper {
   width: 100%;
   height: 100%;
-  background: #ffffff;
+  background: var(--bg-card);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3715,7 +3784,7 @@ body {
   width: 110px;
   height: 110px;
   border-radius: 26px;
-  background: #ffffff;
+  background: var(--bg-card);
   box-shadow:
     0 8px 32px rgba(219, 39, 119, 0.12),
     0 2px 8px rgba(0, 0, 0, 0.06);
@@ -3734,6 +3803,7 @@ body {
 
 /* Brand title */
 .splash-brand {
+  font-family: var(--font-heading);
   font-size: 32px;
   font-weight: 800;
   color: var(--primary); /* navy #1e3a8a */
@@ -3875,7 +3945,7 @@ body {
 }
 
 .gpay-btn {
-  background: white;
+  background: #fff;
   border: 1px solid #ddd;
 }
 
@@ -4200,7 +4270,7 @@ body {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  background: white;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
   flex-shrink: 0;
@@ -4254,7 +4324,7 @@ body {
 
 /* Generic Card */
 .scan-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -4586,7 +4656,7 @@ body {
   padding: 13px;
   border: 2px solid var(--border-color);
   border-radius: 14px;
-  background: white;
+  background: var(--bg-card);
   color: var(--text-primary);
   font-size: 14px;
   font-weight: 600;
@@ -4606,10 +4676,10 @@ body {
 
 /* ── Root: refined shadow & surface tokens ─────────────────── */
 :root {
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-  --shadow-card-hover: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.08);
-  --surface-alt: #f8fafc;
-  --border-subtle: rgba(0,0,0,0.06);
+  --shadow-card: 0 1px 3px rgba(80,60,30,0.07), 0 4px 16px rgba(80,60,30,0.07);
+  --shadow-card-hover: 0 2px 8px rgba(80,60,30,0.1), 0 8px 24px rgba(80,60,30,0.1);
+  --surface-alt: var(--bg-secondary);
+  --border-subtle: var(--gold-faint);
 }
 
 /* ── Mobile app container: softer shadow ───────────────────── */
@@ -4621,9 +4691,12 @@ body {
 .mobile-header {
   padding: 14px 20px calc(12px + var(--safe-area-top)) 20px;
   background: linear-gradient(135deg, var(--primary) 0%, #d946ef 60%, var(--secondary) 100%);
+  border-bottom: 2px solid var(--gold-soft);
+  box-shadow: 0 4px 14px rgba(80, 60, 30, 0.18);
 }
 
 .header-left h1 {
+  font-family: var(--font-heading);
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.3px;
@@ -4638,9 +4711,9 @@ body {
 /* ── Bottom Nav: pill indicator under active icon ──────────── */
 .bottom-nav {
   padding: 10px 0 calc(10px + var(--safe-area-bottom));
-  background: #fff;
-  border-top: 1px solid rgba(0,0,0,0.07);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -4px 20px rgba(80, 60, 30, 0.08);
 }
 
 .nav-item {
@@ -4919,7 +4992,7 @@ body {
 
 /* ── Exam room: refined question card ──────────────────────── */
 .question-card-exam {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 20px;
   box-shadow: var(--shadow-card);
@@ -4949,7 +5022,7 @@ body {
   padding: 12px 14px;
   font-size: 14px;
   border: 1.5px solid var(--border-color);
-  background: #fff;
+  background: var(--bg-card);
   text-align: left;
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
@@ -5028,6 +5101,7 @@ body {
 }
 
 .auth-app-name {
+  font-family: var(--font-heading);
   font-size: 30px;
   font-weight: 900;
   color: #fff;
@@ -5044,7 +5118,7 @@ body {
 
 /* Form card */
 .auth-card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 28px 28px 0 0;
   margin-top: -24px;
   position: relative;
@@ -5175,7 +5249,7 @@ body {
 .dev-summary-strip {
   display: flex;
   align-items: center;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 14px;
@@ -5282,7 +5356,7 @@ body {
 
 /* Chapter card */
 .dev-chapter-card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 14px;
   padding: 14px 16px;
   box-shadow: var(--shadow-card);
@@ -5318,6 +5392,7 @@ body {
 }
 
 .dev-chapter-name {
+  font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 700;
   color: var(--text-primary);

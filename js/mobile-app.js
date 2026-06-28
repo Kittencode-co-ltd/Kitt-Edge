@@ -910,9 +910,19 @@ const MobileApp = {
         
         try {
             const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
-            const displayName = savedData.displayName || savedData.name || 'Kitten';
+            const displayName = savedData.name || 'นักเรียน';
             const profileNameEl = document.getElementById('profileDisplayName');
             if (profileNameEl) profileNameEl.textContent = displayName;
+
+            const metaEl = document.getElementById('profileMetaInfo');
+            if (metaEl) {
+                const metaParts = [];
+                if (savedData.grade) metaParts.push(`<span><i class="fas fa-school"></i> ${savedData.grade}</span>`);
+                if (savedData.seatNo) metaParts.push(`<span><i class="fas fa-hashtag"></i> เลขที่ ${savedData.seatNo}</span>`);
+                if (savedData.school) metaParts.push(`<span><i class="fas fa-landmark"></i> ${savedData.school}</span>`);
+                metaEl.innerHTML = metaParts.join('');
+                metaEl.style.display = metaParts.length ? 'flex' : 'none';
+            }
         } catch (e) {}
 
         // --- Update subscription tier badge ---
@@ -968,20 +978,6 @@ const MobileApp = {
 
     // Render Profile Setup
     renderProfileSetup() {
-        const purposeSelect = document.getElementById('setupPurpose');
-        const uniFields = document.getElementById('uniFields');
-        
-        if (purposeSelect && uniFields) {
-            purposeSelect.addEventListener('change', (e) => {
-                if (e.target.value === 'เตรียมสอบเข้ามหาลัย') {
-                    uniFields.style.animation = 'fadeIn 0.3s ease';
-                    uniFields.style.display = 'block';
-                } else {
-                    uniFields.style.display = 'none';
-                }
-            });
-        }
-
         // Add logic to load saved profile data, unless it's a new registration
         if (localStorage.getItem('isRegistering') === 'true') {
             localStorage.removeItem('isRegistering');
@@ -994,22 +990,11 @@ const MobileApp = {
             }
             try {
                 const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
-                if (savedData.displayName && document.getElementById('setupDisplayName')) document.getElementById('setupDisplayName').value = savedData.displayName;
+                if (savedData.prefix && document.getElementById('setupPrefix')) document.getElementById('setupPrefix').value = savedData.prefix;
                 if (savedData.name && document.getElementById('setupName')) document.getElementById('setupName').value = savedData.name;
-                if (savedData.phone && document.getElementById('setupPhone')) document.getElementById('setupPhone').value = savedData.phone;
-                if (savedData.email && document.getElementById('setupEmail')) document.getElementById('setupEmail').value = savedData.email;
-                if (savedData.dob && document.getElementById('setupDob')) document.getElementById('setupDob').value = savedData.dob;
-                if (savedData.gender && document.getElementById('setupGender')) document.getElementById('setupGender').value = savedData.gender;
-                if (savedData.province && document.getElementById('setupProvince')) document.getElementById('setupProvince').value = savedData.province;
                 if (savedData.grade && document.getElementById('setupGrade')) document.getElementById('setupGrade').value = savedData.grade;
-                if (savedData.purpose && document.getElementById('setupPurpose')) {
-                    const el = document.getElementById('setupPurpose');
-                    el.value = savedData.purpose;
-                    el.dispatchEvent(new Event('change'));
-                }
-                if (savedData.university && document.getElementById('setupUniversity')) document.getElementById('setupUniversity').value = savedData.university;
-                if (savedData.faculty && document.getElementById('setupFaculty')) document.getElementById('setupFaculty').value = savedData.faculty;
-                if (savedData.major && document.getElementById('setupMajor')) document.getElementById('setupMajor').value = savedData.major;
+                if (savedData.seatNo && document.getElementById('setupSeatNo')) document.getElementById('setupSeatNo').value = savedData.seatNo;
+                if (savedData.school && document.getElementById('setupSchool')) document.getElementById('setupSchool').value = savedData.school;
             } catch (e) {
                 console.warn('Could not parse user profile data');
             }
@@ -1020,26 +1005,27 @@ const MobileApp = {
     submitProfileSetup() {
         // Collect and save data
         const profileData = {
-            displayName: document.getElementById('setupDisplayName')?.value || '',
+            prefix: document.getElementById('setupPrefix')?.value || '',
             name: document.getElementById('setupName')?.value || '',
-            phone: document.getElementById('setupPhone')?.value || '',
-            email: document.getElementById('setupEmail')?.value || '',
-            dob: document.getElementById('setupDob')?.value || '',
-            gender: document.getElementById('setupGender')?.value || '',
-            province: document.getElementById('setupProvince')?.value || '',
             grade: document.getElementById('setupGrade')?.value || '',
-            purpose: document.getElementById('setupPurpose')?.value || '',
-            university: document.getElementById('setupUniversity')?.value || '',
-            faculty: document.getElementById('setupFaculty')?.value || '',
-            major: document.getElementById('setupMajor')?.value || ''
+            seatNo: document.getElementById('setupSeatNo')?.value || '',
+            school: document.getElementById('setupSchool')?.value || ''
         };
 
         if (!profileData.name) {
             Utils.showToast('กรุณากรอกชื่อ-นามสกุล', 'error');
             return;
         }
-        if (!profileData.purpose) {
-            Utils.showToast('กรุณาเลือกเป้าหมายการใช้งาน', 'error');
+        if (!profileData.grade) {
+            Utils.showToast('กรุณากรอกชั้นเรียน', 'error');
+            return;
+        }
+        if (!profileData.seatNo) {
+            Utils.showToast('กรุณากรอกเลขที่', 'error');
+            return;
+        }
+        if (!profileData.school) {
+            Utils.showToast('กรุณากรอกชื่อโรงเรียน', 'error');
             return;
         }
 
@@ -1091,10 +1077,24 @@ const MobileApp = {
     updateGlobalUI() {
         try {
             const savedData = JSON.parse(localStorage.getItem('userProfileData') || '{}');
-            const displayName = savedData.displayName || savedData.name || 'Kitten';
+            const displayName = savedData.name || 'นักเรียน';
             const headerNameEl = document.getElementById('headerDisplayName');
             if (headerNameEl) headerNameEl.textContent = displayName;
         } catch (e) {}
+    },
+
+    // Generic placeholder for features that are not built yet
+    notReady() {
+        Utils.showToast('อยู่ระหว่างพัฒนา', 'info');
+    },
+
+    // Log the user out and return to the login screen
+    logout() {
+        localStorage.removeItem('userPlan');
+        localStorage.removeItem('pendingPlan');
+        this.data.user = null;
+        Utils.showToast('ออกจากระบบแล้ว', 'success');
+        this.navigate('auth');
     }
 };
 

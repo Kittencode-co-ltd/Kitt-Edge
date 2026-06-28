@@ -11,10 +11,10 @@
             <button class="icon-btn" onclick="MobileApp.markAllNotificationsRead()" style="color: var(--text-muted); font-size: 14px;">
                 <i class="fas fa-check-double"></i>
             </button>
-            <button class="icon-btn" style="color: var(--text-primary);">
+            <button class="icon-btn" style="color: var(--text-primary);" onclick="MobileApp.notReady()">
                 <i class="fas fa-search"></i>
             </button>
-            <button class="icon-btn" style="color: var(--text-primary);">
+            <button class="icon-btn" style="color: var(--text-primary);" onclick="MobileApp.notReady()">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
         </div>
@@ -22,9 +22,9 @@
 
     <!-- Filter Pills (YouTube style) -->
     <div class="notifications-filter-bar">
-        <button class="filter-pill active">ทั้งหมด</button>
-        <button class="filter-pill">พูดถึงคุณ</button>
-        <button class="filter-pill">คอร์สเรียน</button>
+        <button class="filter-pill active" onclick="MobileApp.notReady()">ทั้งหมด</button>
+        <button class="filter-pill" onclick="MobileApp.notReady()">พูดถึงคุณ</button>
+        <button class="filter-pill" onclick="MobileApp.notReady()">คอร์สเรียน</button>
     </div>
 
     <!-- Notifications List Container -->
