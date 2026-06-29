@@ -613,62 +613,58 @@ const MobileApp = {
             }
         }
 
-        // ── 3. Chapter development cards ──────────────────────
-        const listEl = document.getElementById('devChapterList');
-        if (!listEl) return;
+        // ── 3. Strengths & weaknesses by topic ─────────────────
+        const insightEl = document.getElementById('insightSection');
+        if (!insightEl) return;
 
-        const STATUS_LABEL = { done: 'เสร็จแล้ว', in_progress: 'กำลังเรียน', not_started: 'ยังไม่เริ่ม' };
-        const STATUS_CLASS = { done: 'status-done', in_progress: 'status-progress', not_started: 'status-none' };
+        const renderInsightGroup = (items, type) => {
+            if (!items || items.length === 0) return '';
+            const isStrength = type === 'strength';
+            return items.map((item, idx) => {
+                const topTopic = [...item.topics].sort((a, b) => isStrength ? b.score - a.score : a.score - b.score)[0];
+                return `
+                    <div class="insight-item clickable" onclick="MobileApp.showInsightByIndex('${type}', ${idx})">
+                        <div class="insight-item-left">
+                            <span class="insight-emoji">${item.icon}</span>
+                            <div>
+                                <div class="insight-subject">${item.subject}</div>
+                                <div class="insight-top-topic">${topTopic.name}: ${topTopic.level}</div>
+                            </div>
+                        </div>
+                        <div class="insight-item-right">
+                            <span class="insight-score ${type}">${item.score}%</span>
+                            <i class="fas fa-chevron-right insight-chevron"></i>
+                        </div>
+                    </div>`;
+            }).join('');
+        };
 
-        listEl.innerHTML = chapters.map(ch => {
-            const hasPre  = ch.preScore  !== null;
-            const hasPost = ch.postScore !== null;
-            const delta   = hasPre && hasPost ? ch.postScore - ch.preScore : null;
-            const deltaSign = delta !== null ? (delta >= 0 ? '+' : '') : '';
-            const deltaClass = delta === null ? '' : delta > 0 ? 'delta-up' : delta < 0 ? 'delta-down' : 'delta-same';
+        const strengths = mockData.progress?.strengths || [];
+        const weaknesses = mockData.progress?.weaknesses || [];
 
-            const preBar  = hasPre  ? ch.preScore  : 0;
-            const postBar = hasPost ? ch.postScore : 0;
+        if (strengths.length === 0 && weaknesses.length === 0) {
+            insightEl.innerHTML = `<div class="dev-empty-hint">ยังไม่มีข้อมูลเพียงพอสำหรับวิเคราะห์จุดแข็ง/จุดที่ควรพัฒนา</div>`;
+            return;
+        }
 
-            return `
-            <div class="dev-chapter-card">
-                <div class="dev-card-top">
-                    <div class="dev-card-icon" style="background:${ch.color}18; color:${ch.color}">
-                        <i class="fas ${ch.icon}"></i>
-                    </div>
-                    <div class="dev-card-title">
-                        <span class="dev-chapter-name">${ch.nameTH}</span>
-                        <span class="dev-status-badge ${STATUS_CLASS[ch.status]}">${STATUS_LABEL[ch.status]}</span>
-                    </div>
-                </div>
+        insightEl.innerHTML = `
+            ${strengths.length ? `
+            <div class="insight-card pattern-success">
+                <h3>✨ จุดแข็งของคุณ</h3>
+                <div class="insight-list">${renderInsightGroup(strengths, 'strength')}</div>
+            </div>` : ''}
+            ${weaknesses.length ? `
+            <div class="insight-card pattern-warning">
+                <h3>🎯 จุดที่ควรพัฒนา</h3>
+                <div class="insight-list">${renderInsightGroup(weaknesses, 'weakness')}</div>
+            </div>` : ''}`;
+    },
 
-                <div class="dev-score-row">
-                    <div class="dev-score-box pre">
-                        <span class="dev-score-num">${hasPre ? ch.preScore + '%' : '—'}</span>
-                        <span class="dev-score-lbl">ก่อนเรียน</span>
-                    </div>
-                    <div class="dev-arrow-wrap">
-                        <i class="fas fa-arrow-right dev-arrow"></i>
-                        ${delta !== null ? `<span class="dev-delta ${deltaClass}">${deltaSign}${delta}%</span>` : ''}
-                    </div>
-                    <div class="dev-score-box post">
-                        <span class="dev-score-num">${hasPost ? ch.postScore + '%' : '—'}</span>
-                        <span class="dev-score-lbl">หลังเรียน</span>
-                    </div>
-                </div>
-
-                ${hasPre || hasPost ? `
-                <div class="dev-bars">
-                    <div class="dev-bar-track">
-                        <div class="dev-bar-fill pre-bar" style="width:${preBar}%"></div>
-                    </div>
-                    <div class="dev-bar-track">
-                        <div class="dev-bar-fill post-bar" style="width:${postBar}%; background:${ch.color}"></div>
-                    </div>
-                </div>` : `
-                <div class="dev-empty-hint">ยังไม่มีข้อมูลการสอบ</div>`}
-            </div>`;
-        }).join('');
+    // Look up a strength/weakness item by index and open its detail modal
+    showInsightByIndex(type, idx) {
+        const list = type === 'strength' ? mockData.progress?.strengths : mockData.progress?.weaknesses;
+        const item = list && list[idx];
+        if (item) this.showInsightDetail(item, type);
     },
 
     // Setup Gestures (Swipe)
@@ -819,7 +815,7 @@ const MobileApp = {
                     </div>
                 </div>
                 <div class="insight-detail-topics">${topicsHTML}</div>
-                ${ !isStrength ? `<button class="insight-practice-btn" MobileApp.startAdaptiveExam()" style="background:${item.color} ">
+                ${ !isStrength ? `<button class="insight-practice-btn" onclick="MobileApp.startAdaptiveExam()" style="background:${item.color}">
                     <i class="fas fa-dumbbell"></i> ฝึกทำโจทย์จุดอ่อนนี้
                 </button>` : '' }
             </div>
@@ -886,7 +882,7 @@ const MobileApp = {
         const examDataObj = (typeof examDataRegistry !== 'undefined') ? examDataRegistry[examId] : null;
 
         if (!examDataObj) {
-            Utils.showToast('ยังไม่มีข้อมูลข้อสอบนี้', 'error');
+            Utils.showToast('อยู่ระหว่างพัฒนา', 'info');
             return;
         }
 

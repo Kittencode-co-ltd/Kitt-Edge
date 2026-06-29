@@ -2308,24 +2308,6 @@ body {
   margin-bottom: 6px;
 }
 
-.rubric-score-badge {
-  background: #5b21b6;
-  color: #fff;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  flex-shrink: 0;
-  min-width: 28px;
-  text-align: center;
-}
-
-.rubric-criteria-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
 .fill-textarea-exam {
   width: 100%;
   min-height: 120px;
@@ -2344,68 +2326,6 @@ body {
 
 .fill-textarea-exam:focus {
   border-color: var(--primary);
-}
-
-/* ── Results: truefalse rows ─────────────────── */
-.review-tf-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.review-tf-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.review-tf-row.correct { background: #f0fdf4; }
-.review-tf-row.wrong   { background: #fef2f2; }
-
-.review-tf-icon { font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-.review-tf-row.correct .review-tf-icon { color: #22c55e; }
-.review-tf-row.wrong   .review-tf-icon { color: #ef4444; }
-
-.review-tf-stmt { flex: 1; color: var(--text-primary); }
-.review-tf-ans  { flex-shrink: 0; color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
-
-/* ── Results: pending open question ─────────── */
-.review-item.pending { border-left: 3px solid #8b5cf6; background: #faf5ff; }
-
-.review-status.pending-tag {
-  background: #ede9fe;
-  color: #5b21b6;
-  border-radius: 12px;
-  padding: 2px 8px;
-  font-size: 12px;
-}
-
-.review-rubric-wrap {
-  margin-top: 8px;
-  padding: 10px;
-  background: #f3f4f6;
-  border-radius: 6px;
-}
-
-.review-rubric-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.review-rubric-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
 }
 
 /* ── Results: open pending note ─────────────── */
@@ -2640,75 +2560,22 @@ body {
   color: var(--text-muted);
 }
 
-.results-review-title {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  padding: 0 4px;
-}
-
-.results-review {
+.results-submitted-note {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.review-item {
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
   background: var(--bg-card);
   border-radius: var(--radius-md);
   padding: 14px;
-  border-left: 4px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.review-item.correct {
-  border-left-color: #22c55e;
-}
-
-.review-item.wrong {
-  border-left-color: #ef4444;
-}
-
-.review-q-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.review-q-no {
-  color: var(--text-secondary);
-}
-
-.review-status {
-  color: inherit;
-}
-
-.review-item.correct .review-status {
+.results-submitted-note i {
   color: #22c55e;
-}
-.review-item.wrong .review-status {
-  color: #ef4444;
-}
-
-.review-q-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.review-ans {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.review-correct {
-  font-size: 13px;
-  color: #22c55e;
-  margin-top: 4px;
 }
 
 .exam-back-to-list {
@@ -5346,162 +5213,6 @@ body {
   color: var(--text-muted);
   margin: 4px 0 12px;
 }
-
-/* Chapter list */
-.dev-chapter-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Chapter card */
-.dev-chapter-card {
-  background: var(--bg-card);
-  border-radius: 14px;
-  padding: 14px 16px;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.dev-card-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.dev-card-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.dev-card-title {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.dev-chapter-name {
-  font-family: var(--font-heading);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dev-status-badge {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 20px;
-  width: fit-content;
-}
-.status-done     { background: #dcfce7; color: #166534; }
-.status-progress { background: #fef9c3; color: #854d0e; }
-.status-none     { background: #f1f5f9; color: #94a3b8; }
-
-.dev-worksheet {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  flex-shrink: 0;
-  font-size: 10px;
-  font-weight: 600;
-  color: #cbd5e1;
-}
-.dev-worksheet.done { color: #22c55e; }
-.dev-worksheet i { font-size: 16px; }
-
-/* Score row: before → after */
-.dev-score-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.dev-score-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  flex: 1;
-}
-
-.dev-score-num {
-  font-size: 26px;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.dev-score-box.pre  .dev-score-num { color: #94a3b8; }
-.dev-score-box.post .dev-score-num { color: var(--primary); }
-
-.dev-score-lbl {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.dev-arrow-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.dev-arrow { font-size: 14px; color: var(--border-color); }
-
-.dev-delta {
-  font-size: 12px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.delta-up   { background: #dcfce7; color: #166534; }
-.delta-down { background: #fee2e2; color: #991b1b; }
-.delta-same { background: #f1f5f9; color: #64748b; }
-
-/* Progress bars */
-.dev-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.dev-bar-track {
-  height: 6px;
-  background: #f1f5f9;
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.dev-bar-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 0.6s ease;
-}
-
-.dev-bar-fill.pre-bar  { background: #cbd5e1; }
-.dev-bar-fill.post-bar { /* color set inline */ }
 
 .dev-empty-hint {
   font-size: 12px;

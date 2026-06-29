@@ -145,7 +145,7 @@ const mockData = {
         {
             id: "EX_C6_PRE", chapterId: "chapter6", examType: "pre",
             name: "บทที่ 6: พิษณุโลกวิปโยค", subject: "thai",
-            totalQuestions: 8, duration: 30,
+            totalQuestions: 10, duration: 30,
             status: "available", tag: "ก่อนเรียน",
             linkedPostExamId: "EX_C6_POST"
         },

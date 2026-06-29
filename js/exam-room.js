@@ -513,7 +513,7 @@ const ExamRoom = {
             } else if (q.type === 'multi') {
                 scoreTotal++;
                 const given = Array.isArray(userAns) ? [...userAns].sort() : [];
-                const expected = [...q.answer].sort();
+                const expected = [...(q.answers || [])].sort();
                 const isMatch = given.length === expected.length && given.every((v, i) => v === expected[i]);
                 if (isMatch) correct++;
             } else if (q.type === 'fill') {
@@ -568,102 +568,14 @@ const ExamRoom = {
         const gradeEmoji = pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '📚';
         const gradeColor = pct >= 80 ? '#22c55e' : pct >= 60 ? '#f59e0b' : '#ef4444';
 
-        // Build per-question review
-        const reviewHtml = this.examData.questions.map((q, i) => {
-            const userAns = this.answers[i];
-
-            if (q.type === 'choice') {
-                const isCorrect = userAns === q.answer;
-                const userLabel = userAns !== undefined ? `${userAns + 1}. ${q.choices[userAns]}` : '— ไม่ได้ตอบ —';
-                const correctLabel = `${q.answer + 1}. ${q.choices[q.answer]}`;
-                return `<div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
-                    <div class="review-q-header">
-                        <span class="review-q-no">ข้อ ${i + 1}</span>
-                        <span class="review-status">${isCorrect ? '✓ ถูก' : '✗ ผิด'}</span>
-                    </div>
-                    <div class="review-q-text">${q.text.substring(0, 80)}${q.text.length > 80 ? '...' : ''}</div>
-                    <div class="review-ans">คุณตอบ: <strong>${userLabel}</strong></div>
-                    ${!isCorrect ? `<div class="review-correct">เฉลย: <strong>${correctLabel}</strong></div>` : ''}
-                </div>`;
-
-            } else if (q.type === 'multi') {
-                const given = Array.isArray(userAns) ? [...userAns].sort() : [];
-                const expected = [...q.answer].sort();
-                const isCorrect = given.length === expected.length && given.every((v, idx) => v === expected[idx]);
-                const userLabel = given.length ? given.map(ci => `${ci + 1}. ${q.choices[ci]}`).join(', ') : '— ไม่ได้ตอบ —';
-                const correctLabel = expected.map(ci => `${ci + 1}. ${q.choices[ci]}`).join(', ');
-                return `<div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
-                    <div class="review-q-header">
-                        <span class="review-q-no">ข้อ ${i + 1}</span>
-                        <span class="review-status">${isCorrect ? '✓ ถูก' : '✗ ผิด'}</span>
-                    </div>
-                    <div class="review-q-text">${q.text.substring(0, 80)}${q.text.length > 80 ? '...' : ''}</div>
-                    <div class="review-ans">คุณตอบ: <strong>${userLabel}</strong></div>
-                    ${!isCorrect ? `<div class="review-correct">เฉลย: <strong>${correctLabel}</strong></div>` : ''}
-                </div>`;
-
-            } else if (q.type === 'fill') {
-                const isCorrect = userAns !== undefined && String(userAns).trim() === String(q.answer).trim();
-                const userLabel = userAns !== undefined ? userAns : '— ไม่ได้ตอบ —';
-                return `<div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
-                    <div class="review-q-header">
-                        <span class="review-q-no">ข้อ ${i + 1}</span>
-                        <span class="review-status">${isCorrect ? '✓ ถูก' : '✗ ผิด'}</span>
-                    </div>
-                    <div class="review-q-text">${q.text.substring(0, 80)}${q.text.length > 80 ? '...' : ''}</div>
-                    <div class="review-ans">คุณตอบ: <strong>${userLabel}</strong></div>
-                    ${!isCorrect ? `<div class="review-correct">เฉลย: <strong>${q.answer}</strong></div>` : ''}
-                </div>`;
-
-            } else if (q.type === 'truefalse') {
-                const rowAnswers = userAns || {};
-                const correctRows = q.rows.filter((r, ri) => rowAnswers[ri] === r.answer).length;
-                const rowsHtml = q.rows.map((row, ri) => {
-                    const given = rowAnswers[ri];
-                    const isRowCorrect = given === row.answer;
-                    const givenLabel = given === true ? 'ใช่' : given === false ? 'ไม่ใช่' : '—';
-                    const correctLabel = row.answer ? 'ใช่' : 'ไม่ใช่';
-                    return `<div class="review-tf-row ${isRowCorrect ? 'correct' : 'wrong'}">
-                        <span class="review-tf-icon">${isRowCorrect ? '✓' : '✗'}</span>
-                        <span class="review-tf-stmt">${row.statement}</span>
-                        <span class="review-tf-ans">${givenLabel} ${!isRowCorrect ? `→ <strong>${correctLabel}</strong>` : ''}</span>
-                    </div>`;
-                }).join('');
-                return `<div class="review-item ${correctRows === q.rows.length ? 'correct' : 'wrong'}">
-                    <div class="review-q-header">
-                        <span class="review-q-no">ข้อ ${i + 1} (ใช่/ไม่ใช่)</span>
-                        <span class="review-status">${correctRows} / ${q.rows.length} ถูก</span>
-                    </div>
-                    <div class="review-tf-rows">${rowsHtml}</div>
-                </div>`;
-
-            } else if (q.type === 'fill-open') {
-                const written = userAns || '— ไม่ได้ตอบ —';
-                const rubricHtml = (q.rubric || []).map(r =>
-                    `<div class="review-rubric-row"><span class="rubric-score-badge">${r.score}</span> ${r.criteria}</div>`
-                ).join('');
-                return `<div class="review-item pending">
-                    <div class="review-q-header">
-                        <span class="review-q-no">ข้อ ${i + 1}</span>
-                        <span class="review-status pending-tag">⏳ รอครูตรวจ</span>
-                    </div>
-                    <div class="review-q-text">${q.text.substring(0, 80)}${q.text.length > 80 ? '...' : ''}</div>
-                    <div class="review-ans">คำตอบของคุณ: <strong>${written}</strong></div>
-                    <div class="review-rubric-wrap">
-                        <div class="review-rubric-label">เกณฑ์การให้คะแนน</div>
-                        ${rubricHtml}
-                    </div>
-                </div>`;
-            }
-            return '';
-        }).join('');
-
+        // NOTE: no per-question right/wrong breakdown is shown here on purpose.
+        // This runs during a live exam where some students finish before others —
+        // revealing which item was correct/incorrect lets early finishers tip off
+        // classmates still testing (e.g. "ข้อ 1 ตอบ ก. ผิดนะ"). Only the aggregate
+        // score is shown; per-question review belongs to the teacher's dashboard.
         const openNote = openPending > 0
             ? `<div class="results-open-note"><i class="fas fa-hourglass-half"></i> มี ${openPending} ข้อที่ต้องรอครูตรวจ (ไม่นับในคะแนนนี้)</div>`
             : '';
-
-        // ── สร้าง Guidance Section แบบ context-aware ──
-        const guidanceHtml = this._buildGuidanceSection(pct);
 
         area.innerHTML = `
             <div class="results-screen">
@@ -674,8 +586,9 @@ const ExamRoom = {
                     <div class="results-time">⏱ เวลาที่ใช้: ${elapsedMin} นาที ${elapsedS} วินาที</div>
                     ${openNote}
                 </div>
-                <div class="results-review-title">เฉลยรายข้อ</div>
-                <div class="results-review">${reviewHtml}</div>
+                <div class="results-submitted-note">
+                    <i class="fas fa-circle-check"></i> ส่งคำตอบเรียบร้อยแล้ว รอครูประกาศเฉลยหลังทุกคนสอบเสร็จ
+                </div>
                 <button class="exam-back-to-list" onclick="MobileApp.navigate('exams'); MobileApp.updateNavActive('exams');">
                     <i class="fas fa-list"></i> กลับหน้ารายการข้อสอบ
                 </button>
